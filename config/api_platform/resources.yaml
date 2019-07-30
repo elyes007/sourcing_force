@@ -1,0 +1,1559 @@
+resources:
+  App\Entity\Account:
+    collectionOperations:
+      get: ~
+      post: ~
+      salesforce_create_account:
+        method: POST
+        path: salesforce/create_account
+        swagger_context:
+          summary: Create Account
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: Name
+              type: string
+              description: 'Required. Label is Account Name. Name of the account. Maximum
+                    size is 255 characters. If the account has a record type of Person Account:
+                    This value is the concatenation of the FirstName, MiddleName, LastName,
+                    and Suffix of the associated person contact. You can''t modify this value.'
+              required: true
+            - name: AccountSource
+              type: string
+              description: The source of the account record. For example, Advertisement,
+                Data.com, or Trade Show. The source is selected from a picklist of available
+                values, which are set by an administrator. Each picklist value can have
+                up to 40 characters.
+            - name: AnnualRevenue
+              type: number
+              description: Estimated annual revenue of the account.
+            - name: BillingCity
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 40 characters.
+            - name: BillingCountry
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 80 characters.
+            - name: BillingGeocodeAccuracy
+              type: string
+              description: Accuracy level of the geocode for the billing address. See
+                Compound Field Considerations and Limitations for details on geolocation
+                compound fields.
+            - name: BillingLatitude
+              type: number
+              description: Used with BillingLongitude to specify the precise geolocation
+                of a billing address. Acceptable values are numbers between –90 and 90
+                with up to 15 decimal places. See Compound Field Considerations and Limitations
+                for details on geolocation compound fields.
+            - name: BillingLongitude
+              type: number
+              description: Used with BillingLatitude to specify the precise geolocation
+                of a billing address. Acceptable values are numbers between –180 and 180
+                with up to 15 decimal places. See Compound Field Considerations and Limitations
+                for details on geolocation compound fields.
+            - name: BillingPostalCode
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 20 characters.
+            - name: BillingState
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 80 characters.
+            - name: BillingStreet
+              type: string
+              description: Street address for the billing address of this account.
+            - name: Description
+              type: string
+              description: Text description of the account. Limited to 32,000 KB.
+            - name: Fax
+              type: string
+              description: Fax number for the account.
+            - name: Industry
+              type: string
+              description: An industry associated with this account. Maximum size is 40
+                characters.
+            - name: Jigsaw
+              type: string
+              description: References the ID of a company in Data.com. If an account has
+                a value in this field, it means that the account was imported from Data.com.
+                If the field value is null, the account was not imported from Data.com.
+                Maximum size is 20 characters. Available in API version 22.0 and later.
+                Label is Data.com Key.The Jigsaw field is exposed in the API to support
+                troubleshooting for import errors and reimporting of corrected data. Do
+                not modify the value in the Jigsaw field.
+            - name: NumberOfEmployees
+              type: integer
+              description: Label is Employees. Number of employees working at the company
+                represented by this account. Maximum size is eight digits.
+            - name: OwnerId
+              type: string
+              description: 'The ID of the user who currently owns this account. Default
+                    value is the user logged in to the API to perform the create.If you have
+                    set up account teams in your organization, updating this field has different
+                    consequences depending on your version of the API: For API version 12.0
+                    and later, sharing records are kept, as they are for all objects. For
+                    API version before 12.0, sharing records are deleted. For API version
+                    16.0 and later, users must have the “Transfer Record” permission in order
+                    to update (transfer) account ownership using this field.'
+            - name: ParentId
+              type: string
+              description: ID of the parent object, if any.
+            - name: Phone
+              type: string
+              description: Phone number for this account. Maximum size is 40 characters.
+            - name: ShippingCity
+              type: string
+              description: Details of the shipping address for this account. City maximum
+                size is 40 characters
+            - name: ShippingCountry
+              type: string
+              description: Details of the shipping address for this account. Country maximum
+                size is 80 characters.
+            - name: ShippingGeocodeAccuracy
+              type: string
+              description: Accuracy level of the geocode for the shipping address. See
+                Compound Field Considerations and Limitations for details on geolocation
+                compound fields.
+            - name: ShippingLatitude
+              type: number
+              description: Used with ShippingLongitude to specify the precise geolocation
+                of a shipping address. Acceptable values are numbers between –90 and 90
+                with up to 15 decimal places. See Compound Field Considerations and Limitations
+                for details on geolocation compound fields.
+            - name: ShippingLongitude
+              type: number
+              description: Used with ShippingLatitude to specify the precise geolocation
+                of an address. Acceptable values are numbers between –180 and 180 with
+                up to 15 decimal places. See Compound Field Considerations and Limitations
+                for details on geolocation compound fields.
+            - name: ShippingPostalCode
+              type: string
+              description: Details of the shipping address for this account. Postal code
+                maximum size is 20 characters.
+            - name: ShippingState
+              type: string
+              description: Details of the shipping address for this account. State maximum
+                size is 80 characters.
+            - name: ShippingStreet
+              type: string
+              description: The street address of the shipping address for this account.
+                Maximum of 255 characters.
+            - name: SicDesc
+              type: string
+              description: A brief description of an organization’s line of business,
+                based on its SIC code. Maximum length is 80 characters.
+            - name: Type
+              type: string
+              description: Type of account, for example, Customer, Competitor, or Partner.
+            - name: Website
+              type: string
+              description: The website of this account. Maximum of 255 characters.
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                  success:
+                    type: boolean
+            '400':
+              description: Invalid creation request
+      salesforce_find_all_accounts:
+        method: GET
+        path: salesforce/find_all_accounts
+        swagger_context:
+          summary: Find All Accounts
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Id:
+                      type: string
+                    Fax:
+                      type: string
+                    Name:
+                      type: string
+                    Type:
+                      type: string
+                    Phone:
+                      type: string
+                    Jigsaw:
+                      type: string
+                    OwnerId:
+                      type: string
+                    SicDesc:
+                      type: string
+                    Website:
+                      type: string
+                    Industry:
+                      type: string
+                    ParentId:
+                      type: string
+                    PhotoUrl:
+                      type: string
+                    IsDeleted:
+                      type: boolean
+                    BillingCity:
+                      type: string
+                    CreatedById:
+                      type: string
+                    CreatedDate:
+                      type: string
+                    Description:
+                      type: string
+                    BillingState:
+                      type: string
+                    ShippingCity:
+                      type: string
+                    AccountSource:
+                      type: string
+                    AnnualRevenue:
+                      type: number
+                    BillingStreet:
+                      type: string
+                    ShippingState:
+                      type: string
+                    BillingAddress:
+                      type: string
+                    BillingCountry:
+                      type: string
+                    LastViewedDate:
+                      type: string
+                    MasterRecordId:
+                      type: string
+                    ShippingStreet:
+                      type: string
+                    SystemModstamp:
+                      type: string
+                    BillingLatitude:
+                      type: number
+                    JigsawCompanyId:
+                      type: string
+                    ShippingAddress:
+                      type: string
+                    ShippingCountry:
+                      type: string
+                    BillingLongitude:
+                      type: number
+                    LastActivityDate:
+                      type: string
+                    LastModifiedById:
+                      type: string
+                    LastModifiedDate:
+                      type: string
+                    ShippingLatitude:
+                      type: number
+                    BillingPostalCode:
+                      type: string
+                    NumberOfEmployees:
+                      type: integer
+                    ShippingLongitude:
+                      type: number
+                    LastReferencedDate:
+                      type: string
+                    ShippingPostalCode:
+                      type: string
+                    BillingGeocodeAccuracy:
+                      type: string
+                    ShippingGeocodeAccuracy:
+                      type: string
+    itemOperations:
+      delete: ~
+      get: ~
+      put: ~
+      salesforce_find_account:
+        method: GET
+        path: salesforce/find_account
+        swagger_context:
+          summary: Find Account by Id
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Account that needs to be fetched
+              required: true
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: string
+                  Fax:
+                    type: string
+                  Name:
+                    type: string
+                  Type:
+                    type: string
+                  Phone:
+                    type: string
+                  Jigsaw:
+                    type: string
+                  OwnerId:
+                    type: string
+                  SicDesc:
+                    type: string
+                  Website:
+                    type: string
+                  Industry:
+                    type: string
+                  ParentId:
+                    type: string
+                  PhotoUrl:
+                    type: string
+                  IsDeleted:
+                    type: boolean
+                  BillingCity:
+                    type: string
+                  CreatedById:
+                    type: string
+                  CreatedDate:
+                    type: string
+                  Description:
+                    type: string
+                  BillingState:
+                    type: string
+                  ShippingCity:
+                    type: string
+                  AccountSource:
+                    type: string
+                  AnnualRevenue:
+                    type: number
+                  BillingStreet:
+                    type: string
+                  ShippingState:
+                    type: string
+                  BillingAddress:
+                    type: string
+                  BillingCountry:
+                    type: string
+                  LastViewedDate:
+                    type: string
+                  MasterRecordId:
+                    type: string
+                  ShippingStreet:
+                    type: string
+                  SystemModstamp:
+                    type: string
+                  BillingLatitude:
+                    type: number
+                  JigsawCompanyId:
+                    type: string
+                  ShippingAddress:
+                    type: string
+                  ShippingCountry:
+                    type: string
+                  BillingLongitude:
+                    type: number
+                  LastActivityDate:
+                    type: string
+                  LastModifiedById:
+                    type: string
+                  LastModifiedDate:
+                    type: string
+                  ShippingLatitude:
+                    type: number
+                  BillingPostalCode:
+                    type: string
+                  NumberOfEmployees:
+                    type: integer
+                  ShippingLongitude:
+                    type: number
+                  LastReferencedDate:
+                    type: string
+                  ShippingPostalCode:
+                    type: string
+                  BillingGeocodeAccuracy:
+                    type: string
+                  ShippingGeocodeAccuracy:
+                    type: string
+            '400':
+              description: Invalid ID supplied
+            '404':
+              description: not found
+      salesforce_delete_account:
+        method: DELETE
+        path: salesforce/delete_account
+        swagger_context:
+          summary: Delete Account by Id
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Account that needs to be fetched
+              required: true
+          responses:
+            '200':
+              description: successful operation
+            '400':
+              description: Invalid ID supplied
+            '404':
+              description: not found
+      salesforce_update_account:
+        method: PUT
+        path: salesforce/update_account
+        swagger_context:
+          summary: Update an existing Account
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Account that needs to be fetched
+              required: true
+            - name: Name
+              type: string
+              description: 'Required. Label is Account Name. Name of the account. Maximum
+              size is 255 characters. If the account has a record type of Person Account:
+              This value is the concatenation of the FirstName, MiddleName, LastName,
+              and Suffix of the associated person contact. You can''t modify this value.'
+              required: true
+            - name: AccountSource
+              type: string
+              description: The source of the account record. For example, Advertisement,
+                Data.com, or Trade Show. The source is selected from a picklist of available
+                values, which are set by an administrator. Each picklist value can have
+                up to 40 characters.
+            - name: AnnualRevenue
+              type: number
+              description: Estimated annual revenue of the account.
+            - name: BillingCity
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 40 characters.
+            - name: BillingCountry
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 80 characters.
+            - name: BillingGeocodeAccuracy
+              type: string
+              description: Accuracy level of the geocode for the billing address. See
+                Compound Field Considerations and Limitations for details on geolocation
+                compound fields.
+            - name: BillingLatitude
+              type: number
+              description: Used with BillingLongitude to specify the precise geolocation
+                of a billing address. Acceptable values are numbers between –90 and 90
+                with up to 15 decimal places. See Compound Field Considerations and Limitations
+                for details on geolocation compound fields.
+            - name: BillingLongitude
+              type: number
+              description: Used with BillingLatitude to specify the precise geolocation
+                of a billing address. Acceptable values are numbers between –180 and 180
+                with up to 15 decimal places. See Compound Field Considerations and Limitations
+                for details on geolocation compound fields.
+            - name: BillingPostalCode
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 20 characters.
+            - name: BillingState
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 80 characters.
+            - name: BillingStreet
+              type: string
+              description: Street address for the billing address of this account.
+            - name: Description
+              type: string
+              description: Text description of the account. Limited to 32,000 KB.
+            - name: Fax
+              type: string
+              description: Fax number for the account.
+            - name: Industry
+              type: string
+              description: An industry associated with this account. Maximum size is 40
+                characters.
+            - name: Jigsaw
+              type: string
+              description: References the ID of a company in Data.com. If an account has
+                a value in this field, it means that the account was imported from Data.com.
+                If the field value is null, the account was not imported from Data.com.
+                Maximum size is 20 characters. Available in API version 22.0 and later.
+                Label is Data.com Key.The Jigsaw field is exposed in the API to support
+                troubleshooting for import errors and reimporting of corrected data. Do
+                not modify the value in the Jigsaw field.
+            - name: NumberOfEmployees
+              type: integer
+              description: Label is Employees. Number of employees working at the company
+                represented by this account. Maximum size is eight digits.
+            - name: OwnerId
+              type: string
+              description: 'The ID of the user who currently owns this account. Default
+              value is the user logged in to the API to perform the create.If you have
+              set up account teams in your organization, updating this field has different
+              consequences depending on your version of the API: For API version 12.0
+              and later, sharing records are kept, as they are for all objects. For
+              API version before 12.0, sharing records are deleted. For API version
+              16.0 and later, users must have the “Transfer Record” permission in order
+              to update (transfer) account ownership using this field.'
+            - name: ParentId
+              type: string
+              description: ID of the parent object, if any.
+            - name: Phone
+              type: string
+              description: Phone number for this account. Maximum size is 40 characters.
+            - name: ShippingCity
+              type: string
+              description: Details of the shipping address for this account. City maximum
+                size is 40 characters
+            - name: ShippingCountry
+              type: string
+              description: Details of the shipping address for this account. Country maximum
+                size is 80 characters.
+            - name: ShippingGeocodeAccuracy
+              type: string
+              description: Accuracy level of the geocode for the shipping address. See
+                Compound Field Considerations and Limitations for details on geolocation
+                compound fields.
+            - name: ShippingLatitude
+              type: number
+              description: Used with ShippingLongitude to specify the precise geolocation
+                of a shipping address. Acceptable values are numbers between –90 and 90
+                with up to 15 decimal places. See Compound Field Considerations and Limitations
+                for details on geolocation compound fields.
+            - name: ShippingLongitude
+              type: number
+              description: Used with ShippingLatitude to specify the precise geolocation
+                of an address. Acceptable values are numbers between –180 and 180 with
+                up to 15 decimal places. See Compound Field Considerations and Limitations
+                for details on geolocation compound fields.
+            - name: ShippingPostalCode
+              type: string
+              description: Details of the shipping address for this account. Postal code
+                maximum size is 20 characters.
+            - name: ShippingState
+              type: string
+              description: Details of the shipping address for this account. State maximum
+                size is 80 characters.
+            - name: ShippingStreet
+              type: string
+              description: The street address of the shipping address for this account.
+                Maximum of 255 characters.
+            - name: SicDesc
+              type: string
+              description: A brief description of an organization’s line of business,
+                based on its SIC code. Maximum length is 80 characters.
+            - name: Type
+              type: string
+              description: Type of account, for example, Customer, Competitor, or Partner.
+            - name: Website
+              type: string
+              description: The website of this account. Maximum of 255 characters.
+          responses:
+            '200':
+              description: successful operation
+            '400':
+              description: Invalid ID supplied
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    errorCode:
+                      type: string
+            '404':
+              description: not found
+
+  App\Entity\Contract:
+    collectionOperations:
+      get: ~
+      post: ~
+      salesforce_create_contract:
+        method: POST
+        path: salesforce/create_contract
+        swagger_context:
+          summary: Create Contract
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: AccountId
+              type: string
+              description: Required. ID of the Account associated with this contract.
+                Is this field supposed to be uneditable (we know it’s supposed to be undeletable)
+                if contract is active?
+              required: true
+            - name: ActivatedById
+              type: string
+              description: ID of the User who activated this contract.
+            - name: ActivatedDate
+              type: string
+              description: Date and time when this contract was activated.
+            - name: BillingCity
+              type: string
+              description: Details for the billing address. Maximum size is 40 characters.
+            - name: BillingCountry
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 80 characters.
+            - name: BillingGeocodeAccuracy
+              type: string
+              description: ''
+            - name: BillingLatitude
+              type: number
+              description: ''
+            - name: BillingLongitude
+              type: number
+              description: ''
+            - name: BillingPostalCode
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 20 characters.
+            - name: BillingState
+              type: string
+              description: Details for the billing address. Maximum size is 80 characters.
+            - name: BillingStreet
+              type: string
+              description: Street address for the billing address.
+            - name: CompanySignedDate
+              type: string
+              description: Date on which the contract was signed by your organization.
+            - name: CompanySignedId
+              type: string
+              description: ID of the User who signed the contract.
+            - name: ContractTerm
+              type: integer
+              description: Number of months that the contract is valid.
+            - name: CustomerSignedDate
+              type: string
+              description: Date on which the customer signed the contract.
+            - name: CustomerSignedId
+              type: string
+              description: ID of the Contact who signed this contract.
+            - name: CustomerSignedTitle
+              type: string
+              description: Title of the customer who signed the contract.
+            - name: Description
+              type: string
+              description: Description of the contract.
+            - name: OwnerExpirationNotice
+              type: string
+              description: Number of days ahead of the contract end date (15, 30, 45,
+                60, 90, and 120). Used to notify the owner in advance that the contract
+                is ending.
+            - name: OwnerId
+              type: string
+              description: ID of the user who owns the contract.
+            - name: ShippingCity
+              type: string
+              description: Details of the shipping address. City maximum size is 40 characters.
+            - name: ShippingCountry
+              type: string
+              description: Details of the shipping address. Country maximum size is 80
+                characters.
+            - name: ShippingGeocodeAccuracy
+              type: string
+              description: ''
+            - name: ShippingLatitude
+              type: number
+              description: ''
+            - name: ShippingLongitude
+              type: number
+              description: ''
+            - name: ShippingPostalCode
+              type: string
+              description: Details of the shipping address. Postal code maximum size is
+                20 characters.
+            - name: ShippingState
+              type: string
+              description: Details of the shipping address. State maximum size is 80 characters.
+            - name: ShippingStreet
+              type: string
+              description: The street address of the shipping address. Maximum of 255
+                characters.
+            - name: SpecialTerms
+              type: string
+              description: Special terms that apply to the contract.
+            - name: StartDate
+              type: string
+              description: Start date for this contract. Label is Contract Start Date.
+            - name: Status
+              type: string
+              description: 'The picklist of values that indicate order status. Each value
+                    is within one of two status categories defined in StatusCode. For example,
+                    the status picklist may contain: Ready to Ship, Shipped, Received as values
+                    within the Activated StatusCode.'
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                  success:
+                    type: boolean
+            '400':
+              description: Invalid creation request
+      salesforce_find_all_contracts:
+        method: GET
+        path: salesforce/find_all_contracts
+        swagger_context:
+          summary: Find All Contracts
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    AccountId:
+                      type: string
+                    ActivatedById:
+                      type: string
+                    ActivatedDate:
+                      type: string
+                    BillingCity:
+                      type: string
+                    BillingCountry:
+                      type: string
+                    BillingGeocodeAccuracy:
+                      type: string
+                    BillingLatitude:
+                      type: number
+                    BillingLongitude:
+                      type: number
+                    BillingPostalCode:
+                      type: string
+                    BillingState:
+                      type: string
+                    BillingStreet:
+                      type: string
+                    CompanySignedDate:
+                      type: string
+                    CompanySignedId:
+                      type: string
+                    ContractTerm:
+                      type: integer
+                    CustomerSignedDate:
+                      type: string
+                    CustomerSignedId:
+                      type: string
+                    CustomerSignedTitle:
+                      type: string
+                    Description:
+                      type: string
+                    OwnerExpirationNotice:
+                      type: string
+                    OwnerId:
+                      type: string
+                    ShippingCity:
+                      type: string
+                    ShippingCountry:
+                      type: string
+                    ShippingGeocodeAccuracy:
+                      type: string
+                    ShippingLatitude:
+                      type: number
+                    ShippingLongitude:
+                      type: number
+                    ShippingPostalCode:
+                      type: string
+                    ShippingState:
+                      type: string
+                    ShippingStreet:
+                      type: string
+                    SpecialTerms:
+                      type: string
+                    StartDate:
+                      type: string
+                    Status:
+                      type: string
+    itemOperations:
+      delete: ~
+      get: ~
+      put: ~
+      salesforce_find_contract:
+        method: GET
+        path: salesforce/find_contract
+        swagger_context:
+          summary: Find Contract by Id
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Contract that needs to be fetched
+              required: true
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  AccountId:
+                    type: string
+                  ActivatedById:
+                    type: string
+                  ActivatedDate:
+                    type: string
+                  BillingCity:
+                    type: string
+                  BillingCountry:
+                    type: string
+                  BillingGeocodeAccuracy:
+                    type: string
+                  BillingLatitude:
+                    type: number
+                  BillingLongitude:
+                    type: number
+                  BillingPostalCode:
+                    type: string
+                  BillingState:
+                    type: string
+                  BillingStreet:
+                    type: string
+                  CompanySignedDate:
+                    type: string
+                  CompanySignedId:
+                    type: string
+                  ContractTerm:
+                    type: integer
+                  CustomerSignedDate:
+                    type: string
+                  CustomerSignedId:
+                    type: string
+                  CustomerSignedTitle:
+                    type: string
+                  Description:
+                    type: string
+                  OwnerExpirationNotice:
+                    type: string
+                  OwnerId:
+                    type: string
+                  ShippingCity:
+                    type: string
+                  ShippingCountry:
+                    type: string
+                  ShippingGeocodeAccuracy:
+                    type: string
+                  ShippingLatitude:
+                    type: number
+                  ShippingLongitude:
+                    type: number
+                  ShippingPostalCode:
+                    type: string
+                  ShippingState:
+                    type: string
+                  ShippingStreet:
+                    type: string
+                  SpecialTerms:
+                    type: string
+                  StartDate:
+                    type: string
+                  Status:
+                    type: string
+            '400':
+              description: Invalid ID supplied
+            '404':
+              description: not found
+      salesforce_delete_contract:
+        method: DELETE
+        path: salesforce/delete_contract
+        swagger_context:
+          summary: Delete Contract by Id
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Contract that needs to be fetched
+              required: true
+          responses:
+            '200':
+              description: successful operation
+            '400':
+              description: Invalid ID supplied
+            '404':
+              description: not found
+      salesforce_update_contract:
+        method: PUT
+        path: salesforce/update_contract
+        swagger_context:
+          summary: Update an existing Contract
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Contract that needs to be fetched
+              required: true
+            - name: AccountId
+              type: string
+              description: Required. ID of the Account associated with this contract.
+                Is this field supposed to be uneditable (we know it’s supposed to be undeletable)
+                if contract is active?
+              required: true
+            - name: ActivatedById
+              type: string
+              description: ID of the User who activated this contract.
+            - name: ActivatedDate
+              type: string
+              description: Date and time when this contract was activated.
+            - name: BillingCity
+              type: string
+              description: Details for the billing address. Maximum size is 40 characters.
+            - name: BillingCountry
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 80 characters.
+            - name: BillingGeocodeAccuracy
+              type: string
+              description: ''
+            - name: BillingLatitude
+              type: number
+              description: ''
+            - name: BillingLongitude
+              type: number
+              description: ''
+            - name: BillingPostalCode
+              type: string
+              description: Details for the billing address of this account. Maximum size
+                is 20 characters.
+            - name: BillingState
+              type: string
+              description: Details for the billing address. Maximum size is 80 characters.
+            - name: BillingStreet
+              type: string
+              description: Street address for the billing address.
+            - name: CompanySignedDate
+              type: string
+              description: Date on which the contract was signed by your organization.
+            - name: CompanySignedId
+              type: string
+              description: ID of the User who signed the contract.
+            - name: ContractTerm
+              type: integer
+              description: Number of months that the contract is valid.
+            - name: CustomerSignedDate
+              type: string
+              description: Date on which the customer signed the contract.
+            - name: CustomerSignedId
+              type: string
+              description: ID of the Contact who signed this contract.
+            - name: CustomerSignedTitle
+              type: string
+              description: Title of the customer who signed the contract.
+            - name: Description
+              type: string
+              description: Description of the contract.
+            - name: OwnerExpirationNotice
+              type: string
+              description: Number of days ahead of the contract end date (15, 30, 45,
+                60, 90, and 120). Used to notify the owner in advance that the contract
+                is ending.
+            - name: OwnerId
+              type: string
+              description: ID of the user who owns the contract.
+            - name: ShippingCity
+              type: string
+              description: Details of the shipping address. City maximum size is 40 characters.
+            - name: ShippingCountry
+              type: string
+              description: Details of the shipping address. Country maximum size is 80
+                characters.
+            - name: ShippingGeocodeAccuracy
+              type: string
+              description: ''
+            - name: ShippingLatitude
+              type: number
+              description: ''
+            - name: ShippingLongitude
+              type: number
+              description: ''
+            - name: ShippingPostalCode
+              type: string
+              description: Details of the shipping address. Postal code maximum size is
+                20 characters.
+            - name: ShippingState
+              type: string
+              description: Details of the shipping address. State maximum size is 80 characters.
+            - name: ShippingStreet
+              type: string
+              description: The street address of the shipping address. Maximum of 255
+                characters.
+            - name: SpecialTerms
+              type: string
+              description: Special terms that apply to the contract.
+            - name: StartDate
+              type: string
+              description: Start date for this contract. Label is Contract Start Date.
+            - name: Status
+              type: string
+              description: 'The picklist of values that indicate order status. Each value
+              is within one of two status categories defined in StatusCode. For example,
+              the status picklist may contain: Ready to Ship, Shipped, Received as values
+              within the Activated StatusCode.'
+          responses:
+            '200':
+              description: successful operation
+            '400':
+              description: Invalid ID supplied
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    errorCode:
+                      type: string
+            '404':
+              description: not found
+
+  App\Entity\Order:
+    collectionOperations:
+      get: ~
+      post: ~
+      salesforce_create_order:
+        method: POST
+        path: salesforce/create_order
+        swagger_context:
+          summary: Create Order
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: AccountId
+              type: string
+              description: Required. ID of the Account associated with this order. Can
+                only be updated when the order’s StatusCode value is Draft.
+              required: true
+            - name: OwnerId
+              type: string
+              description: Required. ID of the User or queue that owns this order.
+              required: true
+            - name: Pricebook2Id
+              type: string
+              description: Required. ID of the price book associated with this order.
+              required: true
+            - name: ActivatedById
+              type: string
+              description: ID of the User who activated this order.
+            - name: ActivatedDate
+              type: string
+              description: Date and time when the order was activated.
+            - name: BillingCity
+              type: string
+              description: City for the billing address for this order. Maximum size is
+                40 characters.
+            - name: BillingCountry
+              type: string
+              description: Country for the billing address for this order. Maximum size
+                is 80 characters.
+            - name: BillingGeocodeAccuracy
+              type: string
+              description: ''
+            - name: BillingLatitude
+              type: number
+              description: ''
+            - name: BillingLongitude
+              type: number
+              description: ''
+            - name: BillingPostalCode
+              type: string
+              description: Postal code for the billing address for this order. Maximum
+                size is 20 characters.
+            - name: BillingState
+              type: string
+              description: State for the billing address for this order. Maximum size
+                is 80 characters.
+            - name: BillingStreet
+              type: string
+              description: Street address for the billing address.
+            - name: CompanyAuthorizedById
+              type: string
+              description: ID of the user who authorized the account associated with the
+                order.
+            - name: ContractId
+              type: string
+              description: ID of the contract associated with this order. Can only be
+                updated when the order’s StatusCode value is Draft.
+            - name: CustomerAuthorizedById
+              type: string
+              description: ID of the contact who authorized the order.
+            - name: Description
+              type: string
+              description: Description of the order.
+            - name: EffectiveDate
+              type: string
+              description: Date at which the order becomes effective. Label is Order Start
+                Date.
+            - name: EndDate
+              type: string
+              description: ''
+            - name: ShippingCity
+              type: string
+              description: City of the shipping address. Maximum size is 40 characters.
+            - name: ShippingCountry
+              type: string
+              description: Country of the shipping address. Maximum size is 80 characters.
+            - name: ShippingGeocodeAccuracy
+              type: string
+              description: ''
+            - name: ShippingLatitude
+              type: number
+              description: ''
+            - name: ShippingLongitude
+              type: number
+              description: ''
+            - name: ShippingPostalCode
+              type: string
+              description: Postal code of the shipping address. Maximum size is 20 characters.
+            - name: ShippingState
+              type: string
+              description: State of the shipping address. Maximum size is 80 characters.
+            - name: ShippingStreet
+              type: string
+              description: Street address of the shipping address. Maximum of 255 characters.
+            - name: Status
+              type: string
+              description: Picklist of values that indicate order status. Each value is
+                within one of two status categories defined in StatusCode. For example,
+                the status picklist might contain Draft, Ready for Review, and Ready for
+                Activation values with a StatusCode of Draft.
+            - name: StatusCode
+              type: string
+              description: The status category for the order. An order can be either Draft
+                or Activated. Label is Status Category.
+            - name: Type
+              type: string
+              description: The type of order.
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                  success:
+                    type: boolean
+            '400':
+              description: Invalid creation request
+      salesforce_find_all_orders:
+        method: GET
+        path: salesforce/find_all_orders
+        swagger_context:
+          summary: Find All Orders
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Order that needs to be fetched
+              required: true
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Id:
+                      type: string
+                    Type:
+                      type: string
+                    Status:
+                      type: string
+                    EndDate:
+                      type: string
+                    OwnerId:
+                      type: string
+                    AccountId:
+                      type: string
+                    IsDeleted:
+                      type: boolean
+                    ContractId:
+                      type: string
+                    StatusCode:
+                      type: string
+                    BillingCity:
+                      type: string
+                    CreatedById:
+                      type: string
+                    CreatedDate:
+                      type: string
+                    Description:
+                      type: string
+                    OrderNumber:
+                      type: string
+                    TotalAmount:
+                      type: number
+                    BillingState:
+                      type: string
+                    Pricebook2Id:
+                      type: string
+                    ShippingCity:
+                      type: string
+                    ActivatedById:
+                      type: string
+                    ActivatedDate:
+                      type: string
+                    BillingStreet:
+                      type: string
+                    EffectiveDate:
+                      type: string
+                    ShippingState:
+                      type: string
+                    BillingAddress:
+                      type: string
+                    BillingCountry:
+                      type: string
+                    LastViewedDate:
+                      type: string
+                    ShippingStreet:
+                      type: string
+                    SystemModstamp:
+                      type: string
+                    BillingLatitude:
+                      type: number
+                    OriginalOrderId:
+                      type: string
+                    ShippingAddress:
+                      type: string
+                    ShippingCountry:
+                      type: string
+                    BillingLongitude:
+                      type: number
+                    IsReductionOrder:
+                      type: boolean
+                    LastModifiedById:
+                      type: string
+                    LastModifiedDate:
+                      type: string
+                    ShippingLatitude:
+                      type: number
+                    BillingPostalCode:
+                      type: string
+                    ShippingLongitude:
+                      type: number
+                    LastReferencedDate:
+                      type: string
+                    ShippingPostalCode:
+                      type: string
+                    CompanyAuthorizedById:
+                      type: string
+                    BillingGeocodeAccuracy:
+                      type: string
+                    CustomerAuthorizedById:
+                      type: string
+                    ShippingGeocodeAccuracy:
+                      type: string
+    itemOperations:
+      delete: ~
+      get: ~
+      put: ~
+      salesforce_find_order:
+        method: GET
+        path: salesforce/find_order
+        swagger_context:
+          summary: Find Order by Id
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Order that needs to be fetched
+              required: true
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: string
+                  Type:
+                    type: string
+                  Status:
+                    type: string
+                  EndDate:
+                    type: string
+                  OwnerId:
+                    type: string
+                  AccountId:
+                    type: string
+                  IsDeleted:
+                    type: boolean
+                  ContractId:
+                    type: string
+                  StatusCode:
+                    type: string
+                  BillingCity:
+                    type: string
+                  CreatedById:
+                    type: string
+                  CreatedDate:
+                    type: string
+                  Description:
+                    type: string
+                  OrderNumber:
+                    type: string
+                  TotalAmount:
+                    type: number
+                  BillingState:
+                    type: string
+                  Pricebook2Id:
+                    type: string
+                  ShippingCity:
+                    type: string
+                  ActivatedById:
+                    type: string
+                  ActivatedDate:
+                    type: string
+                  BillingStreet:
+                    type: string
+                  EffectiveDate:
+                    type: string
+                  ShippingState:
+                    type: string
+                  BillingAddress:
+                    type: string
+                  BillingCountry:
+                    type: string
+                  LastViewedDate:
+                    type: string
+                  ShippingStreet:
+                    type: string
+                  SystemModstamp:
+                    type: string
+                  BillingLatitude:
+                    type: number
+                  OriginalOrderId:
+                    type: string
+                  ShippingAddress:
+                    type: string
+                  ShippingCountry:
+                    type: string
+                  BillingLongitude:
+                    type: number
+                  IsReductionOrder:
+                    type: boolean
+                  LastModifiedById:
+                    type: string
+                  LastModifiedDate:
+                    type: string
+                  ShippingLatitude:
+                    type: number
+                  BillingPostalCode:
+                    type: string
+                  ShippingLongitude:
+                    type: number
+                  LastReferencedDate:
+                    type: string
+                  ShippingPostalCode:
+                    type: string
+                  CompanyAuthorizedById:
+                    type: string
+                  BillingGeocodeAccuracy:
+                    type: string
+                  CustomerAuthorizedById:
+                    type: string
+                  ShippingGeocodeAccuracy:
+                    type: string
+            '400':
+              description: Invalid ID supplied
+            '404':
+              description: not found
+      salesforce_delete_order:
+        method: DELETE
+        path: salesforce/delete_order
+        swagger_context:
+          summary: Delete Order by Id
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Order that needs to be fetched
+              required: true
+          responses:
+            '200':
+              description: successful operation
+            '400':
+              description: Invalid ID supplied
+            '404':
+              description: not found
+      salesforce_update_order:
+        method: PUT
+        path: salesforce/update_order
+        swagger_context:
+          summary: Update an existing Order
+          parameters:
+            - name: token
+              type: string
+              description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
+            - name: id
+              type: string
+              description: Id of Order that needs to be fetched
+              required: true
+            - name: AccountId
+              type: string
+              description: Required. ID of the Account associated with this order. Can
+                only be updated when the order’s StatusCode value is Draft.
+              required: true
+            - name: OwnerId
+              type: string
+              description: Required. ID of the User or queue that owns this order.
+              required: true
+            - name: Pricebook2Id
+              type: string
+              description: Required. ID of the price book associated with this order.
+              required: true
+            - name: ActivatedById
+              type: string
+              description: ID of the User who activated this order.
+            - name: ActivatedDate
+              type: string
+              description: Date and time when the order was activated.
+            - name: BillingCity
+              type: string
+              description: City for the billing address for this order. Maximum size is
+                40 characters.
+            - name: BillingCountry
+              type: string
+              description: Country for the billing address for this order. Maximum size
+                is 80 characters.
+            - name: BillingGeocodeAccuracy
+              type: string
+              description: ''
+            - name: BillingLatitude
+              type: number
+              description: ''
+            - name: BillingLongitude
+              type: number
+              description: ''
+            - name: BillingPostalCode
+              type: string
+              description: Postal code for the billing address for this order. Maximum
+                size is 20 characters.
+            - name: BillingState
+              type: string
+              description: State for the billing address for this order. Maximum size
+                is 80 characters.
+            - name: BillingStreet
+              type: string
+              description: Street address for the billing address.
+            - name: CompanyAuthorizedById
+              type: string
+              description: ID of the user who authorized the account associated with the
+                order.
+            - name: ContractId
+              type: string
+              description: ID of the contract associated with this order. Can only be
+                updated when the order’s StatusCode value is Draft.
+            - name: CustomerAuthorizedById
+              type: string
+              description: ID of the contact who authorized the order.
+            - name: Description
+              type: string
+              description: Description of the order.
+            - name: EffectiveDate
+              type: string
+              description: Date at which the order becomes effective. Label is Order Start
+                Date.
+            - name: EndDate
+              type: string
+              description: ''
+            - name: ShippingCity
+              type: string
+              description: City of the shipping address. Maximum size is 40 characters.
+            - name: ShippingCountry
+              type: string
+              description: Country of the shipping address. Maximum size is 80 characters.
+            - name: ShippingGeocodeAccuracy
+              type: string
+              description: ''
+            - name: ShippingLatitude
+              type: number
+              description: ''
+            - name: ShippingLongitude
+              type: number
+              description: ''
+            - name: ShippingPostalCode
+              type: string
+              description: Postal code of the shipping address. Maximum size is 20 characters.
+            - name: ShippingState
+              type: string
+              description: State of the shipping address. Maximum size is 80 characters.
+            - name: ShippingStreet
+              type: string
+              description: Street address of the shipping address. Maximum of 255 characters.
+            - name: Status
+              type: string
+              description: Picklist of values that indicate order status. Each value is
+                within one of two status categories defined in StatusCode. For example,
+                the status picklist might contain Draft, Ready for Review, and Ready for
+                Activation values with a StatusCode of Draft.
+            - name: StatusCode
+              type: string
+              description: The status category for the order. An order can be either Draft
+                or Activated. Label is Status Category.
+            - name: Type
+              type: string
+              description: The type of order.
+          responses:
+            '200':
+              description: successful operation
+            '400':
+              description: Invalid ID supplied
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    errorCode:
+                      type: string
+            '404':
+              description: not found
