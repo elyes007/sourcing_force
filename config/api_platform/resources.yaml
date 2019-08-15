@@ -402,9 +402,11 @@ resources:
           summary: Delete Account by Id
           parameters:
             - name: token
+              in: path
               type: string
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
+              in: path
               type: string
               description: Id of Account that needs to be fetched
               required: true
@@ -422,150 +424,155 @@ resources:
           summary: Update an existing Account
           parameters:
             - name: token
+              in: path
               type: string
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
+              in: path
               type: string
-              description: Id of Account that needs to be fetched
               required: true
-            - name: Name
-              type: string
-              description: 'Required. Label is Account Name. Name of the account. Maximum
-              size is 255 characters. If the account has a record type of Person Account:
-              This value is the concatenation of the FirstName, MiddleName, LastName,
-              and Suffix of the associated person contact. You can''t modify this value.'
-              required: true
-            - name: AccountSource
-              type: string
-              description: The source of the account record. For example, Advertisement,
-                Data.com, or Trade Show. The source is selected from a picklist of available
-                values, which are set by an administrator. Each picklist value can have
-                up to 40 characters.
-            - name: AnnualRevenue
-              type: number
-              description: Estimated annual revenue of the account.
-            - name: BillingCity
-              type: string
-              description: Details for the billing address of this account. Maximum size
-                is 40 characters.
-            - name: BillingCountry
-              type: string
-              description: Details for the billing address of this account. Maximum size
-                is 80 characters.
-            - name: BillingGeocodeAccuracy
-              type: string
-              description: Accuracy level of the geocode for the billing address. See
-                Compound Field Considerations and Limitations for details on geolocation
-                compound fields.
-            - name: BillingLatitude
-              type: number
-              description: Used with BillingLongitude to specify the precise geolocation
-                of a billing address. Acceptable values are numbers between –90 and 90
-                with up to 15 decimal places. See Compound Field Considerations and Limitations
-                for details on geolocation compound fields.
-            - name: BillingLongitude
-              type: number
-              description: Used with BillingLatitude to specify the precise geolocation
-                of a billing address. Acceptable values are numbers between –180 and 180
-                with up to 15 decimal places. See Compound Field Considerations and Limitations
-                for details on geolocation compound fields.
-            - name: BillingPostalCode
-              type: string
-              description: Details for the billing address of this account. Maximum size
-                is 20 characters.
-            - name: BillingState
-              type: string
-              description: Details for the billing address of this account. Maximum size
-                is 80 characters.
-            - name: BillingStreet
-              type: string
-              description: Street address for the billing address of this account.
-            - name: Description
-              type: string
-              description: Text description of the account. Limited to 32,000 KB.
-            - name: Fax
-              type: string
-              description: Fax number for the account.
-            - name: Industry
-              type: string
-              description: An industry associated with this account. Maximum size is 40
-                characters.
-            - name: Jigsaw
-              type: string
-              description: References the ID of a company in Data.com. If an account has
-                a value in this field, it means that the account was imported from Data.com.
-                If the field value is null, the account was not imported from Data.com.
-                Maximum size is 20 characters. Available in API version 22.0 and later.
-                Label is Data.com Key.The Jigsaw field is exposed in the API to support
-                troubleshooting for import errors and reimporting of corrected data. Do
-                not modify the value in the Jigsaw field.
-            - name: NumberOfEmployees
-              type: integer
-              description: Label is Employees. Number of employees working at the company
-                represented by this account. Maximum size is eight digits.
-            - name: OwnerId
-              type: string
-              description: 'The ID of the user who currently owns this account. Default
-              value is the user logged in to the API to perform the create.If you have
-              set up account teams in your organization, updating this field has different
-              consequences depending on your version of the API: For API version 12.0
-              and later, sharing records are kept, as they are for all objects. For
-              API version before 12.0, sharing records are deleted. For API version
-              16.0 and later, users must have the “Transfer Record” permission in order
-              to update (transfer) account ownership using this field.'
-            - name: ParentId
-              type: string
-              description: ID of the parent object, if any.
-            - name: Phone
-              type: string
-              description: Phone number for this account. Maximum size is 40 characters.
-            - name: ShippingCity
-              type: string
-              description: Details of the shipping address for this account. City maximum
-                size is 40 characters
-            - name: ShippingCountry
-              type: string
-              description: Details of the shipping address for this account. Country maximum
-                size is 80 characters.
-            - name: ShippingGeocodeAccuracy
-              type: string
-              description: Accuracy level of the geocode for the shipping address. See
-                Compound Field Considerations and Limitations for details on geolocation
-                compound fields.
-            - name: ShippingLatitude
-              type: number
-              description: Used with ShippingLongitude to specify the precise geolocation
-                of a shipping address. Acceptable values are numbers between –90 and 90
-                with up to 15 decimal places. See Compound Field Considerations and Limitations
-                for details on geolocation compound fields.
-            - name: ShippingLongitude
-              type: number
-              description: Used with ShippingLatitude to specify the precise geolocation
-                of an address. Acceptable values are numbers between –180 and 180 with
-                up to 15 decimal places. See Compound Field Considerations and Limitations
-                for details on geolocation compound fields.
-            - name: ShippingPostalCode
-              type: string
-              description: Details of the shipping address for this account. Postal code
-                maximum size is 20 characters.
-            - name: ShippingState
-              type: string
-              description: Details of the shipping address for this account. State maximum
-                size is 80 characters.
-            - name: ShippingStreet
-              type: string
-              description: The street address of the shipping address for this account.
-                Maximum of 255 characters.
-            - name: SicDesc
-              type: string
-              description: A brief description of an organization’s line of business,
-                based on its SIC code. Maximum length is 80 characters.
-            - name: Type
-              type: string
-              description: Type of account, for example, Customer, Competitor, or Partner.
-            - name: Website
-              type: string
-              description: The website of this account. Maximum of 255 characters.
+            - name: account
+              in: body
+              schema:
+                type: object
+                properties:
+                  Name:
+                    type: string
+                    description: 'Label is Account Name. Name of the account. Maximum
+                     size is 255 characters. If the account has a record type of Person Account:
+                     This value is the concatenation of the FirstName, MiddleName, LastName,
+                     and Suffix of the associated person contact. You can''t modify this value.'
+                  AccountSource:
+                    type: string
+                    description: The source of the account record. For example, Advertisement,
+                      Data.com, or Trade Show. The source is selected from a picklist of available
+                      values, which are set by an administrator. Each picklist value can have
+                      up to 40 characters.
+                  AnnualRevenue:
+                    type: number
+                    description: Estimated annual revenue of the account.
+                  BillingCity:
+                    type: string
+                    description: Details for the billing address of this account. Maximum size
+                      is 40 characters.
+                  BillingCountry:
+                    type: string
+                    description: Details for the billing address of this account. Maximum size
+                      is 80 characters.
+                  BillingGeocodeAccuracy:
+                    type: string
+                    description: Accuracy level of the geocode for the billing address. See
+                      Compound Field Considerations and Limitations for details on geolocation
+                      compound fields.
+                  BillingLatitude:
+                    type: number
+                    description: Used with BillingLongitude to specify the precise geolocation
+                      of a billing address. Acceptable values are numbers between –90 and 90
+                      with up to 15 decimal places. See Compound Field Considerations and Limitations
+                      for details on geolocation compound fields.
+                  BillingLongitude:
+                    type: number
+                    description: Used with BillingLatitude to specify the precise geolocation
+                      of a billing address. Acceptable values are numbers between –180 and 180
+                      with up to 15 decimal places. See Compound Field Considerations and Limitations
+                      for details on geolocation compound fields.
+                  BillingPostalCode:
+                    type: string
+                    description: Details for the billing address of this account. Maximum size
+                      is 20 characters.
+                  BillingState:
+                    type: string
+                    description: Details for the billing address of this account. Maximum size
+                      is 80 characters.
+                  BillingStreet:
+                    type: string
+                    description: Street address for the billing address of this account.
+                  Description:
+                    type: string
+                    description: Text description of the account. Limited to 32,000 KB.
+                  Fax:
+                    type: string
+                    description: Fax number for the account.
+                  Industry:
+                    type: string
+                    description: An industry associated with this account. Maximum size is 40
+                      characters.
+                  Jigsaw:
+                    type: string
+                    description: References the ID of a company in Data.com. If an account has
+                      a value in this field, it means that the account was imported from Data.com.
+                      If the field value is null, the account was not imported from Data.com.
+                      Maximum size is 20 characters. Available in API version 22.0 and later.
+                      Label is Data.com Key.The Jigsaw field is exposed in the API to support
+                      troubleshooting for import errors and reimporting of corrected data. Do
+                      not modify the value in the Jigsaw field.
+                  NumberOfEmployees:
+                    type: integer
+                    description: Label is Employees. Number of employees working at the company
+                      represented by this account. Maximum size is eight digits.
+                  OwnerId:
+                    type: string
+                    description: 'The ID of the user who currently owns this account. Default
+                                                   value is the user logged in to the API to perform the create.If you have
+                                                   set up account teams in your organization, updating this field has different
+                                                   consequences depending on your version of the API: For API version 12.0
+                                                   and later, sharing records are kept, as they are for all objects. For
+                                                   API version before 12.0, sharing records are deleted. For API version
+                                                   16.0 and later, users must have the “Transfer Record” permission in order
+                                                   to update (transfer) account ownership using this field.'
+                  ParentId:
+                    type: string
+                    description: ID of the parent object, if any.
+                  Phone:
+                    type: string
+                    description: Phone number for this account. Maximum size is 40 characters.
+                  ShippingCity:
+                    type: string
+                    description: Details of the shipping address for this account. City maximum
+                      size is 40 characters
+                  ShippingCountry:
+                    type: string
+                    description: Details of the shipping address for this account. Country maximum
+                      size is 80 characters.
+                  ShippingGeocodeAccuracy:
+                    type: string
+                    description: Accuracy level of the geocode for the shipping address. See
+                      Compound Field Considerations and Limitations for details on geolocation
+                      compound fields.
+                  ShippingLatitude:
+                    type: number
+                    description: Used with ShippingLongitude to specify the precise geolocation
+                      of a shipping address. Acceptable values are numbers between –90 and 90
+                      with up to 15 decimal places. See Compound Field Considerations and Limitations
+                      for details on geolocation compound fields.
+                  ShippingLongitude:
+                    type: number
+                    description: Used with ShippingLatitude to specify the precise geolocation
+                      of an address. Acceptable values are numbers between –180 and 180 with
+                      up to 15 decimal places. See Compound Field Considerations and Limitations
+                      for details on geolocation compound fields.
+                  ShippingPostalCode:
+                    type: string
+                    description: Details of the shipping address for this account. Postal code
+                      maximum size is 20 characters.
+                  ShippingState:
+                    type: string
+                    description: Details of the shipping address for this account. State maximum
+                      size is 80 characters.
+                  ShippingStreet:
+                    type: string
+                    description: The street address of the shipping address for this account.
+                      Maximum of 255 characters.
+                  SicDesc:
+                    type: string
+                    description: A brief description of an organization’s line of business,
+                      based on its SIC code. Maximum length is 80 characters.
+                  Type:
+                    type: string
+                    description: Type of account, for example, Customer, Competitor, or Partner.
+                  Website:
+                    type: string
+                    description: The website of this account. Maximum of 255 characters.
           responses:
             '200':
               description: successful operation

@@ -124,8 +124,10 @@ class AccountController extends AbstractController
         $session = new Session();
         $token = $session->get('token') == null ? $req->query->get('token') : $session->get('token');
 
-        if ($req->request->count() > 0) {
-            $session->set(self::SESSION_ACCOUNT_PARAMS, $req->request->all());
+        $body = json_decode($req->getContent(), true);
+
+        if (count($body) > 0) {
+            $session->set(self::SESSION_ACCOUNT_PARAMS, $body);
             $session->set(self::SESSION_ACCOUNT_ID, $req->query->get('id'));
         }
 
