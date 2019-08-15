@@ -25,8 +25,10 @@ class OrderController extends AbstractController
         $session = new Session();
         $token = $session->get('token') == null ? $req->query->get('token') : $session->get('token');
 
-        if ($req->request->count() > 0) {
-            $session->set(self::SESSION_ORDER_PARAMS, $req->request->all());
+        $body = json_decode($req->getContent(), true);
+
+        if (count($body) > 0) {
+            $session->set(self::SESSION_ORDER_PARAMS, $body);
         }
 
         if ($token == null) {
@@ -122,8 +124,10 @@ class OrderController extends AbstractController
         $session = new Session();
         $token = $session->get('token') == null ? $req->query->get('token') : $session->get('token');
 
-        if ($req->request->count() > 0) {
-            $session->set(self::SESSION_ORDER_PARAMS, $req->request->all());
+        $body = json_decode($req->getContent(), true);
+
+        if (count($body) > 0) {
+            $session->set(self::SESSION_ORDER_PARAMS, $body);
             $session->set(self::SESSION_ORDER_ID, $req->query->get('id'));
         }
 

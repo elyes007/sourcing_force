@@ -19,7 +19,7 @@ class Contract
 
     /**
      * @var string Required. ID of the Account associated with this contract. Is this field supposed to be uneditable (we know it’s supposed to be undeletable) if contract is active?
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $AccountId;
 

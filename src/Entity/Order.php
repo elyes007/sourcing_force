@@ -19,18 +19,30 @@ class Order
 
     /**
      * @var string Required. ID of the Account associated with this order. Can only be updated when the order’s StatusCode value is Draft.
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $AccountId;
 
     /**
-     * @var string Required. ID of the User or queue that owns this order.
+     * @var string Required. Picklist of values that indicate order status. Each value is within one of two status categories defined in StatusCode. For example, the status picklist might contain Draft, Ready for Review, and Ready for Activation values with a StatusCode of Draft.
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Status;
+
+    /**
+     * @var string Required. Date at which the order becomes effective. Label is Order Start Date.
+     * @ORM\Column(type="string", length=255)
+     */
+    private $EffectiveDate;
+
+    /**
+     * @var string ID of the User or queue that owns this order.
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $OwnerId;
 
     /**
-     * @var string Required. ID of the price book associated with this order.
+     * @var string ID of the price book associated with this order.
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $Pricebook2Id;
@@ -120,12 +132,6 @@ class Order
     private $Description;
 
     /**
-     * @var string Date at which the order becomes effective. Label is Order Start Date.
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $EffectiveDate;
-
-    /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -178,12 +184,6 @@ class Order
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ShippingStreet;
-
-    /**
-     * @var string Picklist of values that indicate order status. Each value is within one of two status categories defined in StatusCode. For example, the status picklist might contain Draft, Ready for Review, and Ready for Activation values with a StatusCode of Draft.
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $Status;
 
     /**
      * @var string The status category for the order. An order can be either Draft or Activated. Label is Status Category.

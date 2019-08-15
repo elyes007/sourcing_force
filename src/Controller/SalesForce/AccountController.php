@@ -2,15 +2,18 @@
 
 namespace App\Controller\SalesForce;
 
+use App\Entity\Account;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use ReflectionClass;
+use ReflectionException;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AccountController extends AbstractController
+class AccountController extends Controller
 {
     const BASE_URL = "https://um5.salesforce.com";
     const QUERY_URL = self::BASE_URL . "/services/data/v20.0/query/";
@@ -180,6 +183,51 @@ class AccountController extends AbstractController
         } catch (GuzzleException $e) {
             $error = ["errorCode" => $e->getCode(), "message" => $e->getMessage()];
             return JsonResponse::fromJsonString(json_encode($error), $e->getCode());
+        }
+    }
+
+    /**
+     * @Route("api/migration/account_to_salesforce", name="migrate_account_to_salesforce")
+     */
+    public function migrateAccountToSalesForce(Request $req)
+    {
+
+        $account = $this->getDoctrine()->getRepository(Account::class)->find($req->query->get('id'));
+
+        $account = $this->dismount($account);
+        unset($account['uid']);
+        $account = array_filter($account);
+
+        $client = new Client(['base_uri' => '']);
+        try {
+            $response = $client->request(
+                'POST',
+                self::BASE_URL . '/services/data/v39.0/sobjects/Account',
+                [
+                    'json' => $account,
+                    'headers' => ['Authorization' => 'Bearer ' . $req->query->get('token')]
+                ]
+            );
+            return JsonResponse::fromJsonString($response->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            $error = ["errorCode" => $e->getCode(), "message" => $e->getMessage()];
+            return JsonResponse::fromJsonString(json_encode($error), $e->getCode());
+        }
+    }
+
+    function dismount($object)
+    {
+        try {
+            $reflectionClass = new ReflectionClass(get_class($object));
+            $array = array();
+            foreach ($reflectionClass->getProperties() as $property) {
+                $property->setAccessible(true);
+                $array[$property->getName()] = $property->getValue($object);
+                $property->setAccessible(false);
+            }
+            return $array;
+        } catch (ReflectionException $e) {
+            return array();
         }
     }
 }

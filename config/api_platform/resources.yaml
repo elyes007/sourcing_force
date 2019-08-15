@@ -188,95 +188,16 @@ resources:
                 items:
                   type: object
                   properties:
+                    attributes:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        url:
+                          type: string
                     Id:
                       type: string
-                    Fax:
-                      type: string
                     Name:
-                      type: string
-                    Type:
-                      type: string
-                    Phone:
-                      type: string
-                    Jigsaw:
-                      type: string
-                    OwnerId:
-                      type: string
-                    SicDesc:
-                      type: string
-                    Website:
-                      type: string
-                    Industry:
-                      type: string
-                    ParentId:
-                      type: string
-                    PhotoUrl:
-                      type: string
-                    IsDeleted:
-                      type: boolean
-                    BillingCity:
-                      type: string
-                    CreatedById:
-                      type: string
-                    CreatedDate:
-                      type: string
-                    Description:
-                      type: string
-                    BillingState:
-                      type: string
-                    ShippingCity:
-                      type: string
-                    AccountSource:
-                      type: string
-                    AnnualRevenue:
-                      type: number
-                    BillingStreet:
-                      type: string
-                    ShippingState:
-                      type: string
-                    BillingAddress:
-                      type: string
-                    BillingCountry:
-                      type: string
-                    LastViewedDate:
-                      type: string
-                    MasterRecordId:
-                      type: string
-                    ShippingStreet:
-                      type: string
-                    SystemModstamp:
-                      type: string
-                    BillingLatitude:
-                      type: number
-                    JigsawCompanyId:
-                      type: string
-                    ShippingAddress:
-                      type: string
-                    ShippingCountry:
-                      type: string
-                    BillingLongitude:
-                      type: number
-                    LastActivityDate:
-                      type: string
-                    LastModifiedById:
-                      type: string
-                    LastModifiedDate:
-                      type: string
-                    ShippingLatitude:
-                      type: number
-                    BillingPostalCode:
-                      type: string
-                    NumberOfEmployees:
-                      type: integer
-                    ShippingLongitude:
-                      type: number
-                    LastReferencedDate:
-                      type: string
-                    ShippingPostalCode:
-                      type: string
-                    BillingGeocodeAccuracy:
-                      type: string
-                    ShippingGeocodeAccuracy:
                       type: string
     itemOperations:
       delete: ~
@@ -293,7 +214,7 @@ resources:
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
               type: string
-              description: Id of Account that needs to be fetched
+              description: Id of Account
               required: true
           responses:
             '200':
@@ -408,7 +329,7 @@ resources:
             - name: id
               in: path
               type: string
-              description: Id of Account that needs to be fetched
+              description: Id of Account
               required: true
           responses:
             '200':
@@ -601,114 +522,120 @@ resources:
           summary: Create Contract
           parameters:
             - name: token
+              in: path
               type: string
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
-            - name: AccountId
-              type: string
-              description: Required. ID of the Account associated with this contract.
-                Is this field supposed to be uneditable (we know it’s supposed to be undeletable)
-                if contract is active?
-              required: true
-            - name: ActivatedById
-              type: string
-              description: ID of the User who activated this contract.
-            - name: ActivatedDate
-              type: string
-              description: Date and time when this contract was activated.
-            - name: BillingCity
-              type: string
-              description: Details for the billing address. Maximum size is 40 characters.
-            - name: BillingCountry
-              type: string
-              description: Details for the billing address of this account. Maximum size
-                is 80 characters.
-            - name: BillingGeocodeAccuracy
-              type: string
-              description: ''
-            - name: BillingLatitude
-              type: number
-              description: ''
-            - name: BillingLongitude
-              type: number
-              description: ''
-            - name: BillingPostalCode
-              type: string
-              description: Details for the billing address of this account. Maximum size
-                is 20 characters.
-            - name: BillingState
-              type: string
-              description: Details for the billing address. Maximum size is 80 characters.
-            - name: BillingStreet
-              type: string
-              description: Street address for the billing address.
-            - name: CompanySignedDate
-              type: string
-              description: Date on which the contract was signed by your organization.
-            - name: CompanySignedId
-              type: string
-              description: ID of the User who signed the contract.
-            - name: ContractTerm
-              type: integer
-              description: Number of months that the contract is valid.
-            - name: CustomerSignedDate
-              type: string
-              description: Date on which the customer signed the contract.
-            - name: CustomerSignedId
-              type: string
-              description: ID of the Contact who signed this contract.
-            - name: CustomerSignedTitle
-              type: string
-              description: Title of the customer who signed the contract.
-            - name: Description
-              type: string
-              description: Description of the contract.
-            - name: OwnerExpirationNotice
-              type: string
-              description: Number of days ahead of the contract end date (15, 30, 45,
-                60, 90, and 120). Used to notify the owner in advance that the contract
-                is ending.
-            - name: OwnerId
-              type: string
-              description: ID of the user who owns the contract.
-            - name: ShippingCity
-              type: string
-              description: Details of the shipping address. City maximum size is 40 characters.
-            - name: ShippingCountry
-              type: string
-              description: Details of the shipping address. Country maximum size is 80
-                characters.
-            - name: ShippingGeocodeAccuracy
-              type: string
-              description: ''
-            - name: ShippingLatitude
-              type: number
-              description: ''
-            - name: ShippingLongitude
-              type: number
-              description: ''
-            - name: ShippingPostalCode
-              type: string
-              description: Details of the shipping address. Postal code maximum size is
-                20 characters.
-            - name: ShippingState
-              type: string
-              description: Details of the shipping address. State maximum size is 80 characters.
-            - name: ShippingStreet
-              type: string
-              description: The street address of the shipping address. Maximum of 255
-                characters.
-            - name: SpecialTerms
-              type: string
-              description: Special terms that apply to the contract.
-            - name: StartDate
-              type: string
-              description: Start date for this contract. Label is Contract Start Date.
-            - name: Status
-              type: string
-              description: 'The picklist of values that indicate order status. Each value
-                    is within one of two status categories defined in StatusCode. For example,
-                    the status picklist may contain: Ready to Ship, Shipped, Received as values
-                    within the Activated StatusCode.'
+            - name: contract
+              in: body
+              schema:
+                type: object
+                properties:
+                  AccountId:
+                    type: string
+                    description: Required. ID of the Account associated with this contract.
+                      Is this field supposed to be uneditable (we know it’s supposed to be undeletable)
+                      if contract is active?
+                    required: true
+                  ActivatedById:
+                    type: string
+                    description: ID of the User who activated this contract.
+                  ActivatedDate:
+                    type: string
+                    description: Date and time when this contract was activated.
+                  BillingCity:
+                    type: string
+                    description: Details for the billing address. Maximum size is 40 characters.
+                  BillingCountry:
+                    type: string
+                    description: Details for the billing address of this account. Maximum size
+                      is 80 characters.
+                  BillingGeocodeAccuracy:
+                    type: string
+                    description: ''
+                  BillingLatitude:
+                    type: number
+                    description: ''
+                  BillingLongitude:
+                    type: number
+                    description: ''
+                  BillingPostalCode:
+                    type: string
+                    description: Details for the billing address of this account. Maximum size
+                      is 20 characters.
+                  BillingState:
+                    type: string
+                    description: Details for the billing address. Maximum size is 80 characters.
+                  BillingStreet:
+                    type: string
+                    description: Street address for the billing address.
+                  CompanySignedDate:
+                    type: string
+                    description: Date on which the contract was signed by your organization.
+                  CompanySignedId:
+                    type: string
+                    description: ID of the User who signed the contract.
+                  ContractTerm:
+                    type: integer
+                    description: Number of months that the contract is valid.
+                  CustomerSignedDate:
+                    type: string
+                    description: Date on which the customer signed the contract.
+                  CustomerSignedId:
+                    type: string
+                    description: ID of the Contact who signed this contract.
+                  CustomerSignedTitle:
+                    type: string
+                    description: Title of the customer who signed the contract.
+                  Description:
+                    type: string
+                    description: Description of the contract.
+                  OwnerExpirationNotice:
+                    type: string
+                    description: Number of days ahead of the contract end date (15, 30, 45,
+                      60, 90, and 120). Used to notify the owner in advance that the contract
+                      is ending.
+                  OwnerId:
+                    type: string
+                    description: ID of the user who owns the contract.
+                  ShippingCity:
+                    type: string
+                    description: Details of the shipping address. City maximum size is 40 characters.
+                  ShippingCountry:
+                    type: string
+                    description: Details of the shipping address. Country maximum size is 80
+                      characters.
+                  ShippingGeocodeAccuracy:
+                    type: string
+                    description: ''
+                  ShippingLatitude:
+                    type: number
+                    description: ''
+                  ShippingLongitude:
+                    type: number
+                    description: ''
+                  ShippingPostalCode:
+                    type: string
+                    description: Details of the shipping address. Postal code maximum size is
+                      20 characters.
+                  ShippingState:
+                    type: string
+                    description: Details of the shipping address. State maximum size is 80 characters.
+                  ShippingStreet:
+                    type: string
+                    description: The street address of the shipping address. Maximum of 255
+                      characters.
+                  SpecialTerms:
+                    type: string
+                    description: Special terms that apply to the contract.
+                  StartDate:
+                    type: string
+                    description: Start date for this contract. Label is Contract Start Date.
+                  Status:
+                    type: string
+                    description: 'The picklist of values that indicate order status. Each value
+                          is within one of two status categories defined in StatusCode. For example,
+                          the status picklist may contain: Ready to Ship, Shipped, Received as values
+                          within the Activated StatusCode.'
           responses:
             '200':
               description: successful operation
@@ -742,69 +669,14 @@ resources:
                 items:
                   type: object
                   properties:
-                    id:
-                      type: string
-                    AccountId:
-                      type: string
-                    ActivatedById:
-                      type: string
-                    ActivatedDate:
-                      type: string
-                    BillingCity:
-                      type: string
-                    BillingCountry:
-                      type: string
-                    BillingGeocodeAccuracy:
-                      type: string
-                    BillingLatitude:
-                      type: number
-                    BillingLongitude:
-                      type: number
-                    BillingPostalCode:
-                      type: string
-                    BillingState:
-                      type: string
-                    BillingStreet:
-                      type: string
-                    CompanySignedDate:
-                      type: string
-                    CompanySignedId:
-                      type: string
-                    ContractTerm:
-                      type: integer
-                    CustomerSignedDate:
-                      type: string
-                    CustomerSignedId:
-                      type: string
-                    CustomerSignedTitle:
-                      type: string
-                    Description:
-                      type: string
-                    OwnerExpirationNotice:
-                      type: string
-                    OwnerId:
-                      type: string
-                    ShippingCity:
-                      type: string
-                    ShippingCountry:
-                      type: string
-                    ShippingGeocodeAccuracy:
-                      type: string
-                    ShippingLatitude:
-                      type: number
-                    ShippingLongitude:
-                      type: number
-                    ShippingPostalCode:
-                      type: string
-                    ShippingState:
-                      type: string
-                    ShippingStreet:
-                      type: string
-                    SpecialTerms:
-                      type: string
-                    StartDate:
-                      type: string
-                    Status:
+                    attributes:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        url:
+                          type: string
+                    Id:
                       type: string
     itemOperations:
       delete: ~
@@ -817,11 +689,13 @@ resources:
           summary: Find Contract by Id
           parameters:
             - name: token
+              in: path
               type: string
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
+              in: path
               type: string
-              description: Id of Contract that needs to be fetched
+              description: Id of Contract
               required: true
           responses:
             '200':
@@ -908,7 +782,7 @@ resources:
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
               type: string
-              description: Id of Contract that needs to be fetched
+              description: Id of Contract
               required: true
           responses:
             '200':
@@ -928,114 +802,119 @@ resources:
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
               type: string
-              description: Id of Contract that needs to be fetched
+              description: Id of Contract that needs to be updated
               required: true
-            - name: AccountId
-              type: string
-              description: Required. ID of the Account associated with this contract.
-                Is this field supposed to be uneditable (we know it’s supposed to be undeletable)
-                if contract is active?
-              required: true
-            - name: ActivatedById
-              type: string
-              description: ID of the User who activated this contract.
-            - name: ActivatedDate
-              type: string
-              description: Date and time when this contract was activated.
-            - name: BillingCity
-              type: string
-              description: Details for the billing address. Maximum size is 40 characters.
-            - name: BillingCountry
-              type: string
-              description: Details for the billing address of this account. Maximum size
-                is 80 characters.
-            - name: BillingGeocodeAccuracy
-              type: string
-              description: ''
-            - name: BillingLatitude
-              type: number
-              description: ''
-            - name: BillingLongitude
-              type: number
-              description: ''
-            - name: BillingPostalCode
-              type: string
-              description: Details for the billing address of this account. Maximum size
-                is 20 characters.
-            - name: BillingState
-              type: string
-              description: Details for the billing address. Maximum size is 80 characters.
-            - name: BillingStreet
-              type: string
-              description: Street address for the billing address.
-            - name: CompanySignedDate
-              type: string
-              description: Date on which the contract was signed by your organization.
-            - name: CompanySignedId
-              type: string
-              description: ID of the User who signed the contract.
-            - name: ContractTerm
-              type: integer
-              description: Number of months that the contract is valid.
-            - name: CustomerSignedDate
-              type: string
-              description: Date on which the customer signed the contract.
-            - name: CustomerSignedId
-              type: string
-              description: ID of the Contact who signed this contract.
-            - name: CustomerSignedTitle
-              type: string
-              description: Title of the customer who signed the contract.
-            - name: Description
-              type: string
-              description: Description of the contract.
-            - name: OwnerExpirationNotice
-              type: string
-              description: Number of days ahead of the contract end date (15, 30, 45,
-                60, 90, and 120). Used to notify the owner in advance that the contract
-                is ending.
-            - name: OwnerId
-              type: string
-              description: ID of the user who owns the contract.
-            - name: ShippingCity
-              type: string
-              description: Details of the shipping address. City maximum size is 40 characters.
-            - name: ShippingCountry
-              type: string
-              description: Details of the shipping address. Country maximum size is 80
-                characters.
-            - name: ShippingGeocodeAccuracy
-              type: string
-              description: ''
-            - name: ShippingLatitude
-              type: number
-              description: ''
-            - name: ShippingLongitude
-              type: number
-              description: ''
-            - name: ShippingPostalCode
-              type: string
-              description: Details of the shipping address. Postal code maximum size is
-                20 characters.
-            - name: ShippingState
-              type: string
-              description: Details of the shipping address. State maximum size is 80 characters.
-            - name: ShippingStreet
-              type: string
-              description: The street address of the shipping address. Maximum of 255
-                characters.
-            - name: SpecialTerms
-              type: string
-              description: Special terms that apply to the contract.
-            - name: StartDate
-              type: string
-              description: Start date for this contract. Label is Contract Start Date.
-            - name: Status
-              type: string
-              description: 'The picklist of values that indicate order status. Each value
-              is within one of two status categories defined in StatusCode. For example,
-              the status picklist may contain: Ready to Ship, Shipped, Received as values
-              within the Activated StatusCode.'
+            - name: contract
+              in: body
+              schema:
+                type: object
+                properties:
+                  AccountId:
+                    type: string
+                    description: ID of the Account associated with this contract.
+                      Is this field supposed to be uneditable (we know it’s supposed to be undeletable)
+                      if contract is active?
+                    required: true
+                  ActivatedById:
+                    type: string
+                    description: ID of the User who activated this contract.
+                  ActivatedDate:
+                    type: string
+                    description: Date and time when this contract was activated.
+                  BillingCity:
+                    type: string
+                    description: Details for the billing address. Maximum size is 40 characters.
+                  BillingCountry:
+                    type: string
+                    description: Details for the billing address of this account. Maximum size
+                      is 80 characters.
+                  BillingGeocodeAccuracy:
+                    type: string
+                    description: ''
+                  BillingLatitude:
+                    type: number
+                    description: ''
+                  BillingLongitude:
+                    type: number
+                    description: ''
+                  BillingPostalCode:
+                    type: string
+                    description: Details for the billing address of this account. Maximum size
+                      is 20 characters.
+                  BillingState:
+                    type: string
+                    description: Details for the billing address. Maximum size is 80 characters.
+                  BillingStreet:
+                    type: string
+                    description: Street address for the billing address.
+                  CompanySignedDate:
+                    type: string
+                    description: Date on which the contract was signed by your organization.
+                  CompanySignedId:
+                    type: string
+                    description: ID of the User who signed the contract.
+                  ContractTerm:
+                    type: integer
+                    description: Number of months that the contract is valid.
+                  CustomerSignedDate:
+                    type: string
+                    description: Date on which the customer signed the contract.
+                  CustomerSignedId:
+                    type: string
+                    description: ID of the Contact who signed this contract.
+                  CustomerSignedTitle:
+                    type: string
+                    description: Title of the customer who signed the contract.
+                  Description:
+                    type: string
+                    description: Description of the contract.
+                  OwnerExpirationNotice:
+                    type: string
+                    description: Number of days ahead of the contract end date (15, 30, 45,
+                      60, 90, and 120). Used to notify the owner in advance that the contract
+                      is ending.
+                  OwnerId:
+                    type: string
+                    description: ID of the user who owns the contract.
+                  ShippingCity:
+                    type: string
+                    description: Details of the shipping address. City maximum size is 40 characters.
+                  ShippingCountry:
+                    type: string
+                    description: Details of the shipping address. Country maximum size is 80
+                      characters.
+                  ShippingGeocodeAccuracy:
+                    type: string
+                    description: ''
+                  ShippingLatitude:
+                    type: number
+                    description: ''
+                  ShippingLongitude:
+                    type: number
+                    description: ''
+                  ShippingPostalCode:
+                    type: string
+                    description: Details of the shipping address. Postal code maximum size is
+                      20 characters.
+                  ShippingState:
+                    type: string
+                    description: Details of the shipping address. State maximum size is 80 characters.
+                  ShippingStreet:
+                    type: string
+                    description: The street address of the shipping address. Maximum of 255
+                      characters.
+                  SpecialTerms:
+                    type: string
+                    description: Special terms that apply to the contract.
+                  StartDate:
+                    type: string
+                    description: Start date for this contract. Label is Contract Start Date.
+                  Status:
+                    type: string
+                    description: 'The picklist of values that indicate order status. Each value
+                    is within one of two status categories defined in StatusCode. For example,
+                    the status picklist may contain: Ready to Ship, Shipped, Received as values
+                    within the Activated StatusCode.'
           responses:
             '200':
               description: successful operation
@@ -1064,113 +943,119 @@ resources:
           summary: Create Order
           parameters:
             - name: token
+              in: path
               type: string
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
-            - name: AccountId
-              type: string
-              description: Required. ID of the Account associated with this order. Can
-                only be updated when the order’s StatusCode value is Draft.
-              required: true
-            - name: OwnerId
-              type: string
-              description: Required. ID of the User or queue that owns this order.
-              required: true
-            - name: Pricebook2Id
-              type: string
-              description: Required. ID of the price book associated with this order.
-              required: true
-            - name: ActivatedById
-              type: string
-              description: ID of the User who activated this order.
-            - name: ActivatedDate
-              type: string
-              description: Date and time when the order was activated.
-            - name: BillingCity
-              type: string
-              description: City for the billing address for this order. Maximum size is
-                40 characters.
-            - name: BillingCountry
-              type: string
-              description: Country for the billing address for this order. Maximum size
-                is 80 characters.
-            - name: BillingGeocodeAccuracy
-              type: string
-              description: ''
-            - name: BillingLatitude
-              type: number
-              description: ''
-            - name: BillingLongitude
-              type: number
-              description: ''
-            - name: BillingPostalCode
-              type: string
-              description: Postal code for the billing address for this order. Maximum
-                size is 20 characters.
-            - name: BillingState
-              type: string
-              description: State for the billing address for this order. Maximum size
-                is 80 characters.
-            - name: BillingStreet
-              type: string
-              description: Street address for the billing address.
-            - name: CompanyAuthorizedById
-              type: string
-              description: ID of the user who authorized the account associated with the
-                order.
-            - name: ContractId
-              type: string
-              description: ID of the contract associated with this order. Can only be
-                updated when the order’s StatusCode value is Draft.
-            - name: CustomerAuthorizedById
-              type: string
-              description: ID of the contact who authorized the order.
-            - name: Description
-              type: string
-              description: Description of the order.
-            - name: EffectiveDate
-              type: string
-              description: Date at which the order becomes effective. Label is Order Start
-                Date.
-            - name: EndDate
-              type: string
-              description: ''
-            - name: ShippingCity
-              type: string
-              description: City of the shipping address. Maximum size is 40 characters.
-            - name: ShippingCountry
-              type: string
-              description: Country of the shipping address. Maximum size is 80 characters.
-            - name: ShippingGeocodeAccuracy
-              type: string
-              description: ''
-            - name: ShippingLatitude
-              type: number
-              description: ''
-            - name: ShippingLongitude
-              type: number
-              description: ''
-            - name: ShippingPostalCode
-              type: string
-              description: Postal code of the shipping address. Maximum size is 20 characters.
-            - name: ShippingState
-              type: string
-              description: State of the shipping address. Maximum size is 80 characters.
-            - name: ShippingStreet
-              type: string
-              description: Street address of the shipping address. Maximum of 255 characters.
-            - name: Status
-              type: string
-              description: Picklist of values that indicate order status. Each value is
-                within one of two status categories defined in StatusCode. For example,
-                the status picklist might contain Draft, Ready for Review, and Ready for
-                Activation values with a StatusCode of Draft.
-            - name: StatusCode
-              type: string
-              description: The status category for the order. An order can be either Draft
-                or Activated. Label is Status Category.
-            - name: Type
-              type: string
-              description: The type of order.
+            - name: order
+              in: body
+              schema:
+                type: object
+                properties:
+                  AccountId:
+                    type: string
+                    description: Required. ID of the Account associated with this order. Can
+                      only be updated when the order’s StatusCode value is Draft.
+                    required: true
+                  Status:
+                    type: string
+                    description: Picklist of values that indicate order status. Each value is
+                      within one of two status categories defined in StatusCode. For example,
+                      the status picklist might contain Draft, Ready for Review, and Ready for
+                      Activation values with a StatusCode of Draft.
+                    required: true
+                  EffectiveDate:
+                    type: string
+                    description: Date at which the order becomes effective. Label is Order Start
+                      Date.
+                    required: true
+                  OwnerId:
+                    type: string
+                    description: ID of the User or queue that owns this order.
+                  Pricebook2Id:
+                    type: string
+                    description: ID of the price book associated with this order.
+                  ActivatedById:
+                    type: string
+                    description: ID of the User who activated this order.
+                  ActivatedDate:
+                    type: string
+                    description: Date and time when the order was activated.
+                  BillingCity:
+                    type: string
+                    description: City for the billing address for this order. Maximum size is
+                      40 characters.
+                  BillingCountry:
+                    type: string
+                    description: Country for the billing address for this order. Maximum size
+                      is 80 characters.
+                  BillingGeocodeAccuracy:
+                    type: string
+                    description: ''
+                  BillingLatitude:
+                    type: number
+                    description: ''
+                  BillingLongitude:
+                    type: number
+                    description: ''
+                  BillingPostalCode:
+                    type: string
+                    description: Postal code for the billing address for this order. Maximum
+                      size is 20 characters.
+                  BillingState:
+                    type: string
+                    description: State for the billing address for this order. Maximum size
+                      is 80 characters.
+                  BillingStreet:
+                    type: string
+                    description: Street address for the billing address.
+                  CompanyAuthorizedById:
+                    type: string
+                    description: ID of the user who authorized the account associated with the
+                      order.
+                  ContractId:
+                    type: string
+                    description: ID of the contract associated with this order. Can only be
+                      updated when the order’s StatusCode value is Draft.
+                  CustomerAuthorizedById:
+                    type: string
+                    description: ID of the contact who authorized the order.
+                  Description:
+                    type: string
+                    description: Description of the order.
+                  EndDate:
+                    type: string
+                    description: ''
+                  ShippingCity:
+                    type: string
+                    description: City of the shipping address. Maximum size is 40 characters.
+                  ShippingCountry:
+                    type: string
+                    description: Country of the shipping address. Maximum size is 80 characters.
+                  ShippingGeocodeAccuracy:
+                    type: string
+                    description: ''
+                  ShippingLatitude:
+                    type: number
+                    description: ''
+                  ShippingLongitude:
+                    type: number
+                    description: ''
+                  ShippingPostalCode:
+                    type: string
+                    description: Postal code of the shipping address. Maximum size is 20 characters.
+                  ShippingState:
+                    type: string
+                    description: State of the shipping address. Maximum size is 80 characters.
+                  ShippingStreet:
+                    type: string
+                    description: Street address of the shipping address. Maximum of 255 characters.
+                  StatusCode:
+                    type: string
+                    description: The status category for the order. An order can be either Draft
+                      or Activated. Label is Status Category.
+                  Type:
+                    type: string
+                    description: The type of order.
           responses:
             '200':
               description: successful operation
@@ -1198,7 +1083,7 @@ resources:
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
               type: string
-              description: Id of Order that needs to be fetched
+              description: Id of Order
               required: true
           responses:
             '200':
@@ -1208,95 +1093,14 @@ resources:
                 items:
                   type: object
                   properties:
+                    attributes:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        url:
+                          type: string
                     Id:
-                      type: string
-                    Type:
-                      type: string
-                    Status:
-                      type: string
-                    EndDate:
-                      type: string
-                    OwnerId:
-                      type: string
-                    AccountId:
-                      type: string
-                    IsDeleted:
-                      type: boolean
-                    ContractId:
-                      type: string
-                    StatusCode:
-                      type: string
-                    BillingCity:
-                      type: string
-                    CreatedById:
-                      type: string
-                    CreatedDate:
-                      type: string
-                    Description:
-                      type: string
-                    OrderNumber:
-                      type: string
-                    TotalAmount:
-                      type: number
-                    BillingState:
-                      type: string
-                    Pricebook2Id:
-                      type: string
-                    ShippingCity:
-                      type: string
-                    ActivatedById:
-                      type: string
-                    ActivatedDate:
-                      type: string
-                    BillingStreet:
-                      type: string
-                    EffectiveDate:
-                      type: string
-                    ShippingState:
-                      type: string
-                    BillingAddress:
-                      type: string
-                    BillingCountry:
-                      type: string
-                    LastViewedDate:
-                      type: string
-                    ShippingStreet:
-                      type: string
-                    SystemModstamp:
-                      type: string
-                    BillingLatitude:
-                      type: number
-                    OriginalOrderId:
-                      type: string
-                    ShippingAddress:
-                      type: string
-                    ShippingCountry:
-                      type: string
-                    BillingLongitude:
-                      type: number
-                    IsReductionOrder:
-                      type: boolean
-                    LastModifiedById:
-                      type: string
-                    LastModifiedDate:
-                      type: string
-                    ShippingLatitude:
-                      type: number
-                    BillingPostalCode:
-                      type: string
-                    ShippingLongitude:
-                      type: number
-                    LastReferencedDate:
-                      type: string
-                    ShippingPostalCode:
-                      type: string
-                    CompanyAuthorizedById:
-                      type: string
-                    BillingGeocodeAccuracy:
-                      type: string
-                    CustomerAuthorizedById:
-                      type: string
-                    ShippingGeocodeAccuracy:
                       type: string
     itemOperations:
       delete: ~
@@ -1313,7 +1117,7 @@ resources:
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
               type: string
-              description: Id of Order that needs to be fetched
+              description: Id of Order
               required: true
           responses:
             '200':
@@ -1426,7 +1230,7 @@ resources:
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
               type: string
-              description: Id of Order that needs to be fetched
+              description: Id of Order
               required: true
           responses:
             '200':
@@ -1442,117 +1246,124 @@ resources:
           summary: Update an existing Order
           parameters:
             - name: token
+              in: path
               type: string
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
             - name: id
+              in: path
               type: string
-              description: Id of Order that needs to be fetched
+              description: Id of Order
               required: true
-            - name: AccountId
-              type: string
-              description: Required. ID of the Account associated with this order. Can
-                only be updated when the order’s StatusCode value is Draft.
-              required: true
-            - name: OwnerId
-              type: string
-              description: Required. ID of the User or queue that owns this order.
-              required: true
-            - name: Pricebook2Id
-              type: string
-              description: Required. ID of the price book associated with this order.
-              required: true
-            - name: ActivatedById
-              type: string
-              description: ID of the User who activated this order.
-            - name: ActivatedDate
-              type: string
-              description: Date and time when the order was activated.
-            - name: BillingCity
-              type: string
-              description: City for the billing address for this order. Maximum size is
-                40 characters.
-            - name: BillingCountry
-              type: string
-              description: Country for the billing address for this order. Maximum size
-                is 80 characters.
-            - name: BillingGeocodeAccuracy
-              type: string
-              description: ''
-            - name: BillingLatitude
-              type: number
-              description: ''
-            - name: BillingLongitude
-              type: number
-              description: ''
-            - name: BillingPostalCode
-              type: string
-              description: Postal code for the billing address for this order. Maximum
-                size is 20 characters.
-            - name: BillingState
-              type: string
-              description: State for the billing address for this order. Maximum size
-                is 80 characters.
-            - name: BillingStreet
-              type: string
-              description: Street address for the billing address.
-            - name: CompanyAuthorizedById
-              type: string
-              description: ID of the user who authorized the account associated with the
-                order.
-            - name: ContractId
-              type: string
-              description: ID of the contract associated with this order. Can only be
-                updated when the order’s StatusCode value is Draft.
-            - name: CustomerAuthorizedById
-              type: string
-              description: ID of the contact who authorized the order.
-            - name: Description
-              type: string
-              description: Description of the order.
-            - name: EffectiveDate
-              type: string
-              description: Date at which the order becomes effective. Label is Order Start
-                Date.
-            - name: EndDate
-              type: string
-              description: ''
-            - name: ShippingCity
-              type: string
-              description: City of the shipping address. Maximum size is 40 characters.
-            - name: ShippingCountry
-              type: string
-              description: Country of the shipping address. Maximum size is 80 characters.
-            - name: ShippingGeocodeAccuracy
-              type: string
-              description: ''
-            - name: ShippingLatitude
-              type: number
-              description: ''
-            - name: ShippingLongitude
-              type: number
-              description: ''
-            - name: ShippingPostalCode
-              type: string
-              description: Postal code of the shipping address. Maximum size is 20 characters.
-            - name: ShippingState
-              type: string
-              description: State of the shipping address. Maximum size is 80 characters.
-            - name: ShippingStreet
-              type: string
-              description: Street address of the shipping address. Maximum of 255 characters.
-            - name: Status
-              type: string
-              description: Picklist of values that indicate order status. Each value is
-                within one of two status categories defined in StatusCode. For example,
-                the status picklist might contain Draft, Ready for Review, and Ready for
-                Activation values with a StatusCode of Draft.
-            - name: StatusCode
-              type: string
-              description: The status category for the order. An order can be either Draft
-                or Activated. Label is Status Category.
-            - name: Type
-              type: string
-              description: The type of order.
+            - name: order
+              in: body
+              schema:
+                type: object
+                properties:
+                  AccountId:
+                    type: string
+                    description: Required. ID of the Account associated with this order. Can
+                      only be updated when the order’s StatusCode value is Draft.
+                    required: true
+                  OwnerId:
+                    type: string
+                    description: Required. ID of the User or queue that owns this order.
+                    required: true
+                  Pricebook2Id:
+                    type: string
+                    description: Required. ID of the price book associated with this order.
+                    required: true
+                  ActivatedById:
+                    type: string
+                    description: ID of the User who activated this order.
+                  ActivatedDate:
+                    type: string
+                    description: Date and time when the order was activated.
+                  BillingCity:
+                    type: string
+                    description: City for the billing address for this order. Maximum size is
+                      40 characters.
+                  BillingCountry:
+                    type: string
+                    description: Country for the billing address for this order. Maximum size
+                      is 80 characters.
+                  BillingGeocodeAccuracy:
+                    type: string
+                    description: ''
+                  BillingLatitude:
+                    type: number
+                    description: ''
+                  BillingLongitude:
+                    type: number
+                    description: ''
+                  BillingPostalCode:
+                    type: string
+                    description: Postal code for the billing address for this order. Maximum
+                      size is 20 characters.
+                  BillingState:
+                    type: string
+                    description: State for the billing address for this order. Maximum size
+                      is 80 characters.
+                  BillingStreet:
+                    type: string
+                    description: Street address for the billing address.
+                  CompanyAuthorizedById:
+                    type: string
+                    description: ID of the user who authorized the account associated with the
+                      order.
+                  ContractId:
+                    type: string
+                    description: ID of the contract associated with this order. Can only be
+                      updated when the order’s StatusCode value is Draft.
+                  CustomerAuthorizedById:
+                    type: string
+                    description: ID of the contact who authorized the order.
+                  Description:
+                    type: string
+                    description: Description of the order.
+                  EffectiveDate:
+                    type: string
+                    description: Date at which the order becomes effective. Label is Order Start
+                      Date.
+                  EndDate:
+                    type: string
+                    description: ''
+                  ShippingCity:
+                    type: string
+                    description: City of the shipping address. Maximum size is 40 characters.
+                  ShippingCountry:
+                    type: string
+                    description: Country of the shipping address. Maximum size is 80 characters.
+                  ShippingGeocodeAccuracy:
+                    type: string
+                    description: ''
+                  ShippingLatitude:
+                    type: number
+                    description: ''
+                  ShippingLongitude:
+                    type: number
+                    description: ''
+                  ShippingPostalCode:
+                    type: string
+                    description: Postal code of the shipping address. Maximum size is 20 characters.
+                  ShippingState:
+                    type: string
+                    description: State of the shipping address. Maximum size is 80 characters.
+                  ShippingStreet:
+                    type: string
+                    description: Street address of the shipping address. Maximum of 255 characters.
+                  Status:
+                    type: string
+                    description: Picklist of values that indicate order status. Each value is
+                      within one of two status categories defined in StatusCode. For example,
+                      the status picklist might contain Draft, Ready for Review, and Ready for
+                      Activation values with a StatusCode of Draft.
+                  StatusCode:
+                    type: string
+                    description: The status category for the order. An order can be either Draft
+                      or Activated. Label is Status Category.
+                  Type:
+                    type: string
+                    description: The type of order.
           responses:
             '200':
               description: successful operation
