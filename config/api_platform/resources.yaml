@@ -203,6 +203,44 @@ resources:
       delete: ~
       get: ~
       put: ~
+      migrate_account_to_salesforce:
+        method: GET
+        path: migration/account_to_salesforce
+        swagger_context:
+          summary: Migrate Sourcing Force Account to SalesForce
+          parameters:
+            - name: token
+              type: string
+              description: Authentication token retrieved from SalesForce.
+              required: true
+            - name: id
+              type: string
+              description: Id of Sourcing Force Account to migrate.
+              required: true
+          responses:
+            '201':
+              description: successful migration
+            '400':
+              description: Invalid creation request
+      migrate_account_to_sourcingforce:
+        method: GET
+        path: migration/account_to_sourcingforce
+        swagger_context:
+          summary: Migrate SalesForce Account to Sourcing Force
+          parameters:
+            - name: token
+              type: string
+              description: Authentication token retrieved from SalesForce.
+              required: true
+            - name: id
+              type: string
+              description: Id of SalesForce Account to migrate.
+              required: true
+          responses:
+            '201':
+              description: successful migration
+            '400':
+              description: Invalid creation request
       salesforce_find_account:
         method: GET
         path: salesforce/find_account
@@ -682,6 +720,44 @@ resources:
       delete: ~
       get: ~
       put: ~
+      migrate_contract_to_salesforce:
+        method: GET
+        path: migration/contract_to_salesforce
+        swagger_context:
+          summary: Migrate Sourcing Force Contract to SalesForce
+          parameters:
+            - name: token
+              type: string
+              description: Authentication token retrieved from SalesForce.
+              required: true
+            - name: id
+              type: string
+              description: Id of Sourcing Force Contract to migrate.
+              required: true
+          responses:
+            '201':
+              description: successful migration
+            '400':
+              description: Invalid creation request
+      migrate_contract_to_sourcingforce:
+        method: GET
+        path: migration/contract_to_sourcingforce
+        swagger_context:
+          summary: Migrate SalesForce Contract to Sourcing Force
+          parameters:
+            - name: token
+              type: string
+              description: Authentication token retrieved from SalesForce.
+              required: true
+            - name: id
+              type: string
+              description: Id of SalesForce Contract to migrate.
+              required: true
+          responses:
+            '201':
+              description: successful migration
+            '400':
+              description: Invalid creation request
       salesforce_find_contract:
         method: GET
         path: salesforce/find_contract
@@ -1081,10 +1157,6 @@ resources:
             - name: token
               type: string
               description: Auth token retrieved from SalesForce. If provided, no authentication redirection will take place.
-            - name: id
-              type: string
-              description: Id of Order
-              required: true
           responses:
             '200':
               description: successful operation
@@ -1106,6 +1178,44 @@ resources:
       delete: ~
       get: ~
       put: ~
+      migrate_order_to_salesforce:
+        method: GET
+        path: migration/order_to_salesforce
+        swagger_context:
+          summary: Migrate Sourcing Force Order to SalesForce
+          parameters:
+            - name: token
+              type: string
+              description: Authentication token retrieved from SalesForce.
+              required: true
+            - name: id
+              type: string
+              description: Id of Sourcing Force Order to migrate.
+              required: true
+          responses:
+            '201':
+              description: successful migration
+            '400':
+              description: Invalid creation request
+      migrate_order_to_sourcingforce:
+        method: GET
+        path: migration/order_to_sourcingforce
+        swagger_context:
+          summary: Migrate SalesForce Order to Sourcing Force
+          parameters:
+            - name: token
+              type: string
+              description: Authentication token retrieved from SalesForce.
+              required: true
+            - name: id
+              type: string
+              description: Id of SalesForce Order to migrate.
+              required: true
+          responses:
+            '201':
+              description: successful migration
+            '400':
+              description: Invalid creation request
       salesforce_find_order:
         method: GET
         path: salesforce/find_order

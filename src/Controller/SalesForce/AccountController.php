@@ -10,8 +10,12 @@ use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class AccountController extends Controller
 {
@@ -196,7 +200,6 @@ class AccountController extends Controller
 
         $account = $this->dismount($account);
         unset($account['uid']);
-        $account = array_filter($account);
 
         $client = new Client(['base_uri' => '']);
         try {
@@ -215,6 +218,40 @@ class AccountController extends Controller
         }
     }
 
+    /**
+     * @Route("api/migration/account_to_sourcingforce", name="migrate_account_to_sourcingforce")
+     */
+    public function migrateAccountToSourcingForce(Request $req)
+    {
+        $client = new Client(['base_uri' => '']);
+        try {
+            $response = $client->request(
+                'GET',
+                self::BASE_URL . '/services/data/v39.0/sobjects/Account/' . $req->query->get('id'),
+                [
+                    'headers' => ['Authorization' => 'Bearer ' . $req->query->get('token')]
+                ]
+            );
+            $account = json_decode($response->getBody()->getContents(), true);
+            foreach ($account as $key => $value) {
+                if ($value == null) {
+                    unset($account[$key]);
+                }
+            }
+
+            $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+            $account = $serializer->denormalize($account, 'App\Entity\Account');
+
+            $this->getDoctrine()->getManager()->persist($account);
+            $this->getDoctrine()->getManager()->flush();
+
+            return new Response("Success", Response::HTTP_CREATED);
+        } catch (GuzzleException $e) {
+            $error = ["errorCode" => $e->getCode(), "message" => $e->getMessage()];
+            return JsonResponse::fromJsonString(json_encode($error), $e->getCode());
+        }
+    }
+
     function dismount($object)
     {
         try {
@@ -222,8 +259,10 @@ class AccountController extends Controller
             $array = array();
             foreach ($reflectionClass->getProperties() as $property) {
                 $property->setAccessible(true);
-                $array[$property->getName()] = $property->getValue($object);
-                $property->setAccessible(false);
+                if ($property->getValue($object) != null) {
+                    $array[$property->getName()] = $property->getValue($object);
+                    $property->setAccessible(false);
+                }
             }
             return $array;
         } catch (ReflectionException $e) {

@@ -7,12 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="`order`")
  * @ApiResource
  */
 class Order
 {
     /**
      * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="string", length=255)
      */
     private $uid;

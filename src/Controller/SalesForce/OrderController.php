@@ -2,13 +2,20 @@
 
 namespace App\Controller\SalesForce;
 
+use App\Entity\Order;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use ReflectionClass;
+use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class OrderController extends AbstractController
 {
@@ -180,6 +187,89 @@ class OrderController extends AbstractController
         } catch (GuzzleException $e) {
             $error = ["errorCode" => $e->getCode(), "message" => $e->getMessage()];
             return JsonResponse::fromJsonString(json_encode($error), $e->getCode());
+        }
+    }
+
+    /**
+     * @Route("api/migration/order_to_salesforce", name="migrate_order_to_salesforce")
+     */
+    public function migrateOrderToSalesForce(Request $req)
+    {
+
+        $order = $this->getDoctrine()->getRepository(Order::class)->find($req->query->get('id'));
+
+        $order = $this->dismount($order);
+        unset($order['uid']);
+        unset($order['StatusCode']);
+
+        $client = new Client(['base_uri' => '']);
+        try {
+            $response = $client->request(
+                'POST',
+                self::BASE_URL . '/services/data/v39.0/sobjects/Order',
+                [
+                    'json' => $order,
+                    'headers' => ['Authorization' => 'Bearer ' . $req->query->get('token')]
+                ]
+            );
+            return JsonResponse::fromJsonString($response->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            $error = ["errorCode" => $e->getCode(), "message" => $e->getMessage()];
+            return JsonResponse::fromJsonString(json_encode($error), $e->getCode());
+        }
+    }
+
+    /**
+     * @Route("api/migration/order_to_sourcingforce", name="migrate_order_to_sourcingforce")
+     */
+    public function migrateOrderToSourcingForce(Request $req)
+    {
+        $client = new Client(['base_uri' => '']);
+        try {
+            $response = $client->request(
+                'GET',
+                self::BASE_URL . '/services/data/v39.0/sobjects/Order/' . $req->query->get('id'),
+                [
+                    'headers' => ['Authorization' => 'Bearer ' . $req->query->get('token')]
+                ]
+            );
+            $order = json_decode($response->getBody()->getContents(), true);
+            foreach ($order as $key => $value) {
+                if ($value == null) {
+                    unset($order[$key]);
+                }
+            }
+
+            $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+            $order = $serializer->denormalize($order, 'App\Entity\Order');
+
+            //var_dump($order);
+
+            $this->getDoctrine()->getManager()->persist($order);
+            $this->getDoctrine()->getManager()->flush();
+
+            return new Response("Success", Response::HTTP_CREATED);
+        } catch (GuzzleException $e) {
+            $error = ["errorCode" => $e->getCode(), "message" => $e->getMessage()];
+            return JsonResponse::fromJsonString(json_encode($error), $e->getCode());
+        }
+    }
+
+    function dismount($object)
+    {
+        try {
+            $reflectionClass = new ReflectionClass(get_class($object));
+            $array = array();
+            foreach ($reflectionClass->getProperties() as $property) {
+                $property->setAccessible(true);
+                if ($property->getValue($object) != null) {
+                    $array[$property->getName()] = $property->getValue($object);
+                    $property->setAccessible(false);
+                }
+            }
+            return $array;
+        } catch (ReflectionException $e) {
+            return array();
         }
     }
 }
