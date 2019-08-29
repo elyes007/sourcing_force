@@ -2,6 +2,10 @@ security:
   # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
   providers:
     in_memory: { memory: ~ }
+    database:
+      id: App\OAuth2\UserProvider
+  encoders:
+    App\Entity\User: argon2i
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/

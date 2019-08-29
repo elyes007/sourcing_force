@@ -28,3 +28,21 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
+
+  League\OAuth2\Server\AuthorizationServer:
+    arguments:
+      $clientRepository: '@App\League\ClientRepository'
+      $accessTokenRepository: '@App\League\AccessTokenRepository'
+      $scopeRepository: '@App\League\ScopeRepository'
+      $privateKey: '%env(OAUTH2_PRIVATE_KEY)%'
+      $encryptionKey: '%env(OAUTH2_ENCRYPTION_KEY)%'
+
+  League\OAuth2\Server\Grant\PasswordGrant:
+    arguments:
+      $userRepository: '@App\League\UserRepository'
+      $refreshTokenRepository: '@App\League\RefreshTokenRepository'
+
+  League\OAuth2\Server\ResourceServer:
+    arguments:
+      $accessTokenRepository: '@App\League\AccessTokenRepository'
+      $publicKey: '%env(OAUTH2_PUBLIC_KEY)%'

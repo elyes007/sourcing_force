@@ -11,11 +11,15 @@
     "api-platform/api-pack": "^1.2",
     "doctrine/doctrine-migrations-bundle": "^2.0",
     "guzzlehttp/guzzle": "~6.0",
+    "league/oauth2-server": "^8.0",
+    "nyholm/psr7": "^1.2",
     "symfony/console": "3.4.*",
     "symfony/dotenv": "3.4.*",
     "symfony/flex": "^1.3.1",
     "symfony/framework-bundle": "3.4.*",
+    "symfony/psr-http-message-bridge": "^1.2",
     "symfony/yaml": "3.4.*",
+    "zendframework/zend-diactoros": "^2.1",
     "zircote/swagger-php": "^3.0"
   },
   "require-dev": {

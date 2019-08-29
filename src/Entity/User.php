@@ -3,80 +3,176 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Class User
  * @package App\Entity
- *
- * @ApiResource()
- * @ORM\Entity
+ * @ORM\Entity()
+ * @ORM\Table(name="`user`")
  */
-class User
+class User implements UserInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     * @ORM\Id()
+     * @ORM\Column(type="string")
      */
     private $id;
-
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     * @ORM\Column(type="string")
      */
-    private $username;
-
+    private $email;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $name;
+    /**
+     * @var array
+     * @ORM\Column(type="json_array")
+     */
+    private $roles;
+    /**
+     * @var string
+     * @ORM\Column(type="string")
      */
     private $password;
-
     /**
-     * @return mixed
+     * @var bool
+     * @ORM\Column(type="boolean")
      */
-    public function getId()
+    private $active;
+
+    private function __construct(string $userId, string $email, string $name)
+    {
+        $this->id = $userId;
+        $this->email = $email;
+        $this->name = $name;
+    }
+
+    public static function create(string $email, string $name): User
+    {
+        $userId = uniqid();
+        return new self($userId, $email, $name);
+    }
+
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @return string
      */
-    public function setId($id)
+    public function getEmail(): string
     {
-        $this->id = $id;
+        return $this->email;
     }
 
     /**
-     * @return mixed
+     * @param string $email
      */
-    public function getUsername()
+    public function setEmail(string $email)
     {
-        return $this->username;
+        $this->email = $email;
     }
 
     /**
-     * @param mixed $username
+     * @return string
      */
-    public function setUsername($username)
+    public function getName(): string
     {
-        $this->username = $username;
+        return $this->name;
     }
 
     /**
-     * @return mixed
+     * @param string $name
      */
-    public function getPassword()
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
 
     /**
-     * @param mixed $password
+     * @param string $password
      */
-    public function setPassword($password)
+    public function setPassword(string $password)
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive(bool $active)
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }

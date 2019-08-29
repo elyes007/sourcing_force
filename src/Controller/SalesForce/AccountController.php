@@ -2,6 +2,7 @@
 
 namespace App\Controller\SalesForce;
 
+use App\Controller\TokenAuthenticatedController;
 use App\Entity\Account;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -17,7 +18,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class AccountController extends Controller
+class AccountController extends Controller implements TokenAuthenticatedController
 {
     const BASE_URL = "https://um5.salesforce.com";
     const QUERY_URL = self::BASE_URL . "/services/data/v20.0/query/";
