@@ -1490,3 +1490,41 @@ resources:
                       type: string
             '404':
               description: not found
+
+  App\Entity\OAuth:
+    collectionOperations:
+      get_access_token:
+        method: POST
+        path: accessToken
+        swagger_context:
+          summary: Get Access Token for Sourcing Force api
+          consumes:
+            - application/x-www-form-urlencoded
+          parameters:
+            - name: grant_type
+              in: formData
+              type: string
+              description: OAuth2 grant type (password)
+              required: true
+            - name: client_id
+              in: formData
+              type: string
+              required: true
+            - name: client_secret
+              in: formData
+              type: string
+              required: true
+            - name: username
+              in: formData
+              type: string
+              required: true
+            - name: password
+              in: formData
+              required: true
+              type: string
+            - name: scope
+              in: formData
+              type: string
+              description: Can be *
+              required: true
+    itemOperations:

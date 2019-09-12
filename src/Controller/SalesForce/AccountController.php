@@ -8,7 +8,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use ReflectionClass;
 use ReflectionException;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +17,8 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class AccountController extends Controller implements TokenAuthenticatedController
+class AccountController extends AbstractController
 {
-    const BASE_URL = "https://um5.salesforce.com";
-    const QUERY_URL = self::BASE_URL . "/services/data/v20.0/query/";
     const SESSION_ACCOUNT_ID = 'account_id';
     const SESSION_ACCOUNT_PARAMS = 'account_params';
 

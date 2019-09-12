@@ -39,7 +39,7 @@ final class OAuthController
     }
 
     /**
-     * @Route("accessToken", name="api_get_access_token", methods={"POST"})
+     * @Route("api/accessToken", name="api_get_access_token", methods={"POST"})
      */
     public function getAccessToken(Request $symRequest)
     {

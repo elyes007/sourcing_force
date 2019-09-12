@@ -49,6 +49,10 @@ final class TokenSubscriber implements EventSubscriberInterface
      */
     public function onKernelController(FilterControllerEvent $event): void
     {
+        if ($event->getRequest()->getPathInfo() === '/api') {
+            return;
+        }
+
         $controller = $event->getController();
         /*
          * $controller passed can be either a class or a Closure.

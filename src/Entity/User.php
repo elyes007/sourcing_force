@@ -3,6 +3,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -10,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @package App\Entity
  * @ORM\Entity()
  * @ORM\Table(name="`user`")
+ * @ApiResource()
  */
 class User implements UserInterface
 {
@@ -17,6 +19,7 @@ class User implements UserInterface
      * @var string
      * @ORM\Id()
      * @ORM\Column(type="string")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
     /**
